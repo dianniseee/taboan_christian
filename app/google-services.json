@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "647171470617",
+    "project_id": "taboan-express",
+    "storage_bucket": "taboan-express.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647171470617:android:fbbd74e7379d284b008188",
+        "android_client_info": {
+          "package_name": "com.example.taboan_capstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647171470617-53b56h9paibslcurpk58bsts9qtbup18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYLRp-UpcmFt3htFmrLAfAONQx_1x5wrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647171470617-53b56h9paibslcurpk58bsts9qtbup18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

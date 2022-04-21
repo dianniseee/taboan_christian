@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.driver.fragment.DeliveryFragment">
+
+    <TextView
+        android:id="@+id/geolocationValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test"
+        android:textColor="@color/colorBlack"
+        android:gravity="center"
+        />
+    <Button
+        android:id="@+id/driver_delivery_orders"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="195dp"
+
+        android:backgroundTint="@color/colorGreen"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:padding="20dp"
+        android:text="Items"
+        android:textColor="@color/colorWhite" />
+
+    <Button
+        android:id="@+id/driver_delivery_route"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/colorGreen"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:padding="20dp"
+        android:text="ROUTE"
+        android:textColor="@color/colorWhite" />
+
+    <FrameLayout
+        android:id="@+id/driver_delivery_frame_layout"
+        android:layout_below="@+id/driver_delivery_orders"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <fragment
+            android:id="@+id/driver_delivery_map"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".NearbyResFragment"
+            map:mapType="normal"
+            />
+
+    </FrameLayout>
+
+</RelativeLayout>

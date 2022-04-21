@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorTransparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/order_status_base"
+        android:layout_below="@+id/order_status_logo"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-40dp"
+        android:layout_height="100dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Would like to accept this order?"
+            android:textColor="@color/colorGray"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/order_status_logo"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/ic_basket"
+        android:layout_centerHorizontal="true"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/order_status_dialog_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_status_base"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-20dp"
+        android:fontFamily="sans-serif-medium"
+        android:backgroundTint="@color/colorGray"
+        android:textColor="@color/colorWhite"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/order_status_dialog_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_status_base"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/colorGreen"
+        android:fontFamily="sans-serif-medium"
+        android:text="Accept"
+        android:textColor="@color/colorWhite" />
+
+</RelativeLayout>

@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.admin.AdminRegisterSellerActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          >
+          <RelativeLayout
+              android:id="@+id/rrlNavSeller"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:background="@color/colorGreen"
+              >
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Seller Registration"
+                  android:layout_centerInParent="true"
+                  android:textColor="@color/colorWhite"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:fontFamily="@font/mml"
+                  />
+
+              <ImageButton
+                  android:id="@+id/ibBack"
+                  android:layout_width="30dp"
+                  android:layout_height="30dp"
+                  app:srcCompat="@drawable/ic_back_white"
+                  android:layout_centerVertical="true"
+                  android:layout_marginTop="20dp"
+                  android:background="@color/colorTransparent"
+                  android:scaleType="fitXY"
+                  android:layout_marginLeft="10dp"
+                  />
+
+
+          </RelativeLayout>
+
+          <RelativeLayout
+              android:layout_below="@+id/rrlNavSeller"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhiteOff"
+              >
+
+              <ImageView
+                  android:id="@+id/admin_seller_cover"
+                  android:layout_width="match_parent"
+                  android:layout_height="200dp"
+                  android:background="@drawable/reg_seller_cover"
+                  android:elevation="1dp"
+                  android:src="@drawable/ic_cover_add" />
+
+              <LinearLayout
+                  android:id="@+id/llSReg"
+                  android:layout_below="@+id/admin_seller_cover"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_centerHorizontal="true"
+                  android:layout_margin="20dp"
+                  android:background="@color/colorWhiteOff"
+                  >
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_fName"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="15dp"
+                      android:hint="First Name"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName|textCapSentences" />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_lName"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="15dp"
+                      android:hint="Last Name"
+                      android:textColorHint="@color/colorGray"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName|textCapSentences" />
+                  </com.google.android.material.textfield.TextInputLayout>
+
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_Address"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColorHint="@color/colorGray"
+                      android:hint="Address"
+                      android:layout_marginBottom="15dp"
+                      app:boxBackgroundColor="@color/colorWhite"
+
+                      android:focusableInTouchMode="false"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:inputType="textPostalAddress"
+
+                          android:background="@drawable/register_input_design"
+                          />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_Mobile"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColorHint="@color/colorGray"
+                      android:hint="Mobile"
+                      android:layout_marginBottom="10dp"
+                      app:boxBackgroundColor="@color/colorWhite"
+                      android:clickable="false"
+                      android:focusableInTouchMode="false"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:inputType="phone"
+                          android:background="@drawable/register_input_design"
+                          />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_personal_Email"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColorHint="@color/colorGray"
+                      android:hint="Email Address"
+                      android:layout_marginBottom="15dp"
+                      app:boxBackgroundColor="@color/colorWhite"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textEmailAddress"
+                          />
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <TextView
+                      android:layout_marginTop="20dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="STORE INFORMATION"
+                      android:textColor="@color/colorBlack"
+                      android:layout_gravity="center"
+                      android:fontFamily="@font/bungee"
+                      android:textStyle="bold"
+                      android:textSize="20sp"
+                      />
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_store_name"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="10dp"
+                      android:hint="Store Name"
+                      app:boxStrokeColor="@color/colorBlack"
+                      android:elevation="3dp"
+                      app:boxStrokeWidth="2dp"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName" />
+                  </com.google.android.material.textfield.TextInputLayout>
+
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_store_location"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="10dp"
+                      android:elevation="3dp"
+                      android:hint="Store Location"
+                      app:boxStrokeColor="@color/colorBlack"
+                      app:boxStrokeWidth="2dp"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName"
+                          />
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_market_location"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="10dp"
+                      android:elevation="3dp"
+                      android:hint="Market Location"
+                      android:focusableInTouchMode="false"
+                      app:boxStrokeColor="@color/colorBlack"
+                      app:boxStrokeWidth="2dp"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:id="@+id/admin_seller_market_location_onTouch"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:focusableInTouchMode="false"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName" />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_market_category"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="10dp"
+                      android:elevation="3dp"
+                      android:hint="Market Category"
+                      android:focusableInTouchMode="false"
+                      app:boxStrokeColor="@color/colorBlack"
+                      app:boxStrokeWidth="2dp"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:id="@+id/admin_seller_market_category_onTouch"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:focusableInTouchMode="false"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName" />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_store_email"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="10dp"
+                      android:elevation="3dp"
+                      android:hint="Shop Email"
+                      app:boxStrokeColor="@color/colorBlack"
+                      app:boxStrokeWidth="2dp"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPersonName" />
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_password"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColorHint="@color/colorGray"
+                      android:hint="Password"
+                      app:passwordToggleEnabled="true"
+                      android:layout_marginBottom="15dp"
+                      app:boxBackgroundColor="@color/colorWhite"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPassword"
+                          />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/admin_seller_confirm_password"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColorHint="@color/colorGray"
+                      android:hint="Confirm Password"
+                      app:passwordToggleEnabled="true"
+                      android:layout_marginBottom="15dp"
+                      app:boxBackgroundColor="@color/colorWhite"
+                      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                      >
+
+                      <com.google.android.material.textfield.TextInputEditText
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@drawable/register_input_design"
+                          android:inputType="textPassword"
+                          />
+                  </com.google.android.material.textfield.TextInputLayout>
+
+              </LinearLayout>
+
+              <Button
+                  android:id="@+id/admin_seller_register"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/llSReg"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="5dp"
+                  android:layout_marginEnd="10dp"
+                  android:layout_marginBottom="10dp"
+                  android:background="@color/colorBlack"
+                  android:onClick="sendVerificationCode"
+                  android:text="Register"
+                  app:backgroundTint="@color/colorBlack"
+                  tools:ignore="OnClick" />
+
+          </RelativeLayout>
+
+      </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

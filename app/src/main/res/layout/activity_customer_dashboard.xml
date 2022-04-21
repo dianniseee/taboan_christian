@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrayWhite"
+    android:orientation="vertical"
+    tools:context=".activity.customer.CustomerDashboardActivity">
+
+   <androidx.cardview.widget.CardView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:cardElevation="5dp"
+       >
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+            >
+
+           <ImageView
+               android:id="@+id/iv_back_dash"
+               android:layout_width="35dp"
+               android:layout_height="35dp"
+               android:layout_marginStart="15dp"
+               android:layout_marginTop="15dp"
+               android:layout_marginEnd="15dp"
+               android:layout_marginBottom="15dp"
+               android:src="@drawable/ic_arrow_back" />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Dashboard"
+               android:layout_centerInParent="true"
+               android:textColor="@color/colorBlack"
+               android:fontFamily="@font/bungee"
+               />
+
+           <ImageView
+               android:id="@+id/iv_cart_dash"
+               android:layout_width="35dp"
+               android:layout_height="35dp"
+               android:layout_alignParentEnd="true"
+               android:layout_marginStart="15dp"
+               android:layout_marginTop="15dp"
+               android:layout_marginEnd="15dp"
+               android:layout_marginBottom="15dp"
+               android:scaleType="fitXY"
+               android:src="@drawable/ic_cart" />
+
+           <TextView
+               android:id="@+id/tv_cart_count_dash"
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentRight="true"
+               android:layout_marginStart="10dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginEnd="10dp"
+               android:layout_marginBottom="10dp"
+               android:background="@drawable/count_cart"
+               android:gravity="center"
+               android:text="1"
+               android:textColor="@color/colorWhite" />
+
+       </RelativeLayout>
+
+   </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGrayWhite"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rlNotificationUserStat"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/colorGreen">
+
+
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvUserDF"
+            android:layout_below="@+id/rlNotificationUserStat"
+            android:layout_marginTop="-35dp"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_rect1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:elevation="2dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageButton
+                    android:id="@+id/ibUserDashUserSearchIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_search" />
+
+                <EditText
+                    android:id="@+id/et_search_store_dash"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/ibUserDashUserSearchIcon"
+                    android:layout_toRightOf="@+id/ibUserDashUserSearchIcon"
+                    android:background="@color/colorWhite"
+                    android:hint="Find Something you like"
+                    android:paddingLeft="20dp"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_below="@+id/rlNotificationUserStat"
+            android:layout_width="60dp"
+            android:layout_marginTop="-35dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_rect1"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp">
+
+            <ImageButton
+                android:id="@+id/ibUserDashUserFilterBtn"
+                android:layout_width="66dp"
+                android:layout_height="match_parent"
+                android:background="#55FFFFFF"
+                app:srcCompat="@drawable/ic_filter" />
+
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_store_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:paddingTop="10dp"
+        tools:listitem="@layout/row_shop"
+        />
+
+
+</LinearLayout>

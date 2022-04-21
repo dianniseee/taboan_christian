@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.xwray:groupie-kotlin-android-extensions:2.5.1@aar">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/fcf5cd2167e00d00e9f56213402fb5e7/transformed/jetified-groupie-kotlin-android-extensions-2.5.1/jars/classes.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/fcf5cd2167e00d00e9f56213402fb5e7/transformed/jetified-groupie-kotlin-android-extensions-2.5.1/res" />
+      <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/fcf5cd2167e00d00e9f56213402fb5e7/transformed/jetified-groupie-kotlin-android-extensions-2.5.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.xwray/groupie-kotlin-android-extensions/2.5.1/4b4dd7b286736efde443879dd02ea6a0fc4fd51b/groupie-kotlin-android-extensions-2.5.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.xwray/groupie-kotlin-android-extensions/2.5.1/30d75d5b514ef88775f43b40b91efdff4a37039f/groupie-kotlin-android-extensions-2.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

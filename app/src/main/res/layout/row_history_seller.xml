@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:id="@+id/row_history_seller_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="#12312312"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/row_history_seller_date"
+                android:layout_below="@+id/row_history_seller_id"
+                android:layout_toStartOf="@+id/row_history_seller_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="April 1, 2020"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorBlue"
+                />
+
+            <TextView
+                android:id="@+id/row_history_seller_order_by_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/row_history_seller_date"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Order By:"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/row_history_seller_order_by_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/row_history_seller_date"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/row_history_seller_order_by_text"
+                android:fontFamily="sans-serif-medium"
+                android:text="#12312312"
+                android:textColor="@color/colorGreen" />
+
+
+            <TextView
+                android:id="@+id/row_history_seller_status"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Successful"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorGreen"
+                />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:elevation="3dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rect2"
+            android:elevation="1dp"
+            >
+
+            <TextView
+                android:id="@+id/custom_dialog_driver_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/bungee"
+                android:gravity="center"
+                android:background="@color/colorGreen"
+                android:text="Order Details"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/custom_dialog_driver_order_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/custom_dialog_driver_details"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/colorBlue"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/custom_dialog_driver_order_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/custom_dialog_driver_order_id"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/colorChocolate"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/custom_dialog_driver_order_items"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_above="@+id/custom_dialog_driver_total_value"
+                android:layout_below="@+id/custom_dialog_driver_order_name"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <TextView
+
+                android:layout_above="@+id/custom_dialog_driver_delivered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:textColor="@color/colorGray"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                />
+
+            <TextView
+                android:id="@+id/custom_dialog_driver_total_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/custom_dialog_driver_delivered"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/custom_dialog_driver_delivered"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorGreen"
+                android:fontFamily="sans-serif"
+                android:text="Delivered"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
