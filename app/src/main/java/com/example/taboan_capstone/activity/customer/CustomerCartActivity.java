@@ -38,7 +38,7 @@ import java.util.List;
 
 public class CustomerCartActivity extends AppCompatActivity {
 
-    private ImageView back;
+    private ImageView back,deleteCart;
     private TextView marketName,personName,personAddress,setTotal;
     private Button placeOrder;
     private RecyclerView customerCartList;
@@ -68,6 +68,8 @@ public class CustomerCartActivity extends AppCompatActivity {
         customerCartList = findViewById(R.id.cart_user_list);
         hasCartCover = findViewById(R.id.cart_user_cover_order);
         noCartCover = findViewById(R.id.cart_user_cover_empty);
+        deleteCart = findViewById(R.id.cart_user_delete);
+
 
         if(getIntent() != null){
             getMarketName = getIntent().getStringExtra(Constants.Companion.getMARKET_NAME());
@@ -81,6 +83,14 @@ public class CustomerCartActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        deleteCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomDatabase.dbDao().clearCustomerCart();
                 onBackPressed();
             }
         });

@@ -24,7 +24,10 @@
                 android:id="@+id/cart_user_back"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_margin="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
                 android:src="@drawable/ic_back_green" />
 
             <TextView
@@ -34,8 +37,18 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="Market Name"
-                android:textSize="25sp"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:id="@+id/cart_user_delete"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_delete"
+                />
 
         </RelativeLayout>
 
