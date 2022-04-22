@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:paddingTop="20dp"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingBottom="5dp"
+    android:orientation="vertical"
+    android:background="@color/colorGreen">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logonew"
+        android:scaleType="fitXY"
+        />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="-20dp"
+       android:textSize="18sp"
+       android:fontFamily="@font/bungee"
+       android:layout_gravity="center"
+       android:textColor="@color/colorBlack"
+       android:text="TAboan express"
+       />
+
+</LinearLayout>
