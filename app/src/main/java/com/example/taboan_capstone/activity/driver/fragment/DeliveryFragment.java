@@ -208,7 +208,6 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                     mPermissionResultLauncher.launch(permissionsRequest.toArray(new String[0]));
                 }
 
-
             } else {
                 ActivityCompat.requestPermissions((Activity) DeliveryFragment.this.getContext(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
                 permissionsRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
