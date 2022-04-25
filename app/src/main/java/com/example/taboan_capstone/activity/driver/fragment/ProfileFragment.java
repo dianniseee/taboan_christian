@@ -120,7 +120,7 @@ public class ProfileFragment extends Fragment {
 
     private void saveData(){
         String fName,lName,address,mobile,email,password;
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
 
         HashMap<String, Object> hashMap = new HashMap<>();
 

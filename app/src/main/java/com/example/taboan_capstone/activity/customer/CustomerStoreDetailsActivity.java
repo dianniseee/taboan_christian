@@ -145,6 +145,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         TextView prodPrice = view.findViewById(R.id.add_cart_price);
         TextView addSubtotal = view.findViewById(R.id.add_cart_subtotal);
         TextView quantity = view.findViewById(R.id.add_cart_quantity);
+        TextView addCategory = view.findViewById(R.id.add_cart_category);
 
         String getProdID = productsList.get(position).getProd_id();
         String getSellerID = productsList.get(position).getProd_seller();
@@ -155,10 +156,15 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         String getProdAvailable = productsList.get(position).getProd_avail();
         String getProdPrice = productsList.get(position).getProd_price();
 
+        addCategory.setText(getProdCategory);
         quantity.setText(String.valueOf((int)setQuantity));
         prodName.setText(getProdName);
         prodDescription.setText(getProdDescription);
         prodPrice.setText("₱ "+getProdPrice);
+        addSubtotal.setText("₱ " + setSubTotal);
+
+        bundlePieces = (int) setQuantity;
+        setSubTotal = bundlePieces * Double.parseDouble(getProdPrice);
         addSubtotal.setText("₱ " + setSubTotal);
 
         if(getProdCategory.equals("Pieces") || getProdCategory.equals("Bundle")){
@@ -185,7 +191,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                 @Override
                 public void onClick(View view) {
 
-                    if(setQuantity > 1){
+                    if(setQuantity > 0.25){
                         setQuantity--;
                         bundlePieces = (int) setQuantity;
 

@@ -13,4 +13,6 @@ object Globals {
     lateinit var  currentDriver: DriverModel
 
     lateinit var isAvailable: String
+
+    var selectedIndex: Int? = null
 }

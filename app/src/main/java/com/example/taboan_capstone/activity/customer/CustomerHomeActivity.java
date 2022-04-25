@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
     private RelativeLayout agdaoBase,bangkeBase,panacanBase,piapiBase,sasaBase,tibungcoBase;
     private TextView welcomeName;
 
+    private int selectIndex = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,68 +82,95 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
         agdaoBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                intent.putExtra("market","Agdao");
-                startActivity(intent);
+                String market = "Agdao";
+                notifyDialog(market);
             }
         });
 
         bangkeBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                intent.putExtra("market","Bangke");
-                startActivity(intent);
+                String market = "Bangkerohan";
+                notifyDialog(market);
             }
         });
 
         panacanBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                intent.putExtra("market","Panacan");
-                startActivity(intent);
+                String market = "Panacan";
+                notifyDialog(market);
             }
         });
 
         piapiBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                intent.putExtra("market","Piapi");
-                startActivity(intent);
+                String market = "Piapi";
+                notifyDialog(market);
             }
         });
 
         sasaBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                intent.putExtra("market","Sasa");
-                startActivity(intent);
+                String market = "Sasa";
+                notifyDialog(market);
             }
         });
 
         tibungcoBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                intent.putExtra("market","Tibungco");
-                startActivity(intent);
+                String market = "Tibungco";
+                notifyDialog(market);
             }
         });
 
     }
 
+    private void notifyDialog(String market){
+
+        if(roomDatabase.dbDao().checkIfCustomerCartExist() > 0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(CustomerHomeActivity.this);
+            AlertDialog alert = builder.create();
+
+            builder.setMessage("You have already selected different market. If you continue your cart and selection will be removed. ")
+                    .setCancelable(false)
+                    .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            roomDatabase.dbDao().clearCustomerCart();
+                            alert.dismiss();
+                            Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
+                            intent.putExtra("market",market);
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    alert.dismiss();
+                }
+            });
+
+            alert.show();
+        }else{
+            Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
+            intent.putExtra("market",market);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         showCustomDialog();
     }
 
     private void showCustomDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(CustomerHomeActivity.this);
         AlertDialog alert = builder.create();
-        alert.show();
+
         builder.setMessage("Do you want to logout?")
                 .setCancelable(false)
                 .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
@@ -155,7 +185,7 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
                 alert.dismiss();
             }
         });
-
+        alert.show();
     }
 
     private void setUpStatus(){

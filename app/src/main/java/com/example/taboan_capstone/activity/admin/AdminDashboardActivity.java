@@ -87,8 +87,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         setUpStatus();
-                        startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
-                        finish();
                     }
                 }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
             @Override
@@ -129,8 +127,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                         String accountType = "" +datasnapshot.child("accountType").getValue();
                         if(accountType.equals("Admin")){
-
                             firebaseAuth.signOut();
+                            startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
+                            finish();
                         }
                     }
                     @Override
