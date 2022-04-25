@@ -131,6 +131,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         if(accountType.equals("Admin")){
 
                             firebaseAuth.signOut();
+                            startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
+                            finish();
                         }
                     }
                     @Override
