@@ -65,8 +65,6 @@ public class LoginActivity extends AppCompatActivity {
     //Firebase
     private FirebaseAuth firebaseAuth;
 
-    //RoomDatabse
-    private RoomDatabase roomDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

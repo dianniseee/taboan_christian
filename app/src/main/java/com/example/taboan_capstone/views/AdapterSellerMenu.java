@@ -23,10 +23,12 @@ public class AdapterSellerMenu extends  RecyclerView.Adapter<AdapterSellerMenu.A
 
     private Context context;
     private ArrayList<ProductModel> productModelArrayList;
+    private AdapterSellerMenu.OnAdapterClick onAdapterClick;
 
-    public AdapterSellerMenu(Context context, ArrayList<ProductModel> productModelArrayList) {
+    public AdapterSellerMenu(Context context, ArrayList<ProductModel> productModelArrayList, OnAdapterClick onAdapterClick) {
         this.context = context;
         this.productModelArrayList = productModelArrayList;
+        this.onAdapterClick = onAdapterClick;
     }
 
     @NonNull
@@ -62,7 +64,7 @@ public class AdapterSellerMenu extends  RecyclerView.Adapter<AdapterSellerMenu.A
         return productModelArrayList.size();
     }
 
-    class AdapterSellerMenuHolder extends RecyclerView.ViewHolder{
+    class AdapterSellerMenuHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
         private TextView productName,productDescription,productPrice,productStatus;
         private ImageView productImage;
@@ -76,5 +78,14 @@ public class AdapterSellerMenu extends  RecyclerView.Adapter<AdapterSellerMenu.A
             productImage = itemView.findViewById(R.id.row_product_seller_image);
 
         }
+
+        @Override
+        public void onClick(View view) {
+            onAdapterClick.onAdapterClick(view,getBindingAdapterPosition());
+        }
+    }
+
+    public interface OnAdapterClick{
+        void onAdapterClick(View v,int position);
     }
 }

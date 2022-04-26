@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.taboan_capstone.DrawerBaseActivity;
@@ -45,6 +47,7 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
         customer_order_rv = binding.getRoot().findViewById(R.id.customer_order_rv);
 
         loadOrders();
+        setOnclickListenerAdapter();
     }
 
     private void loadOrders(){
@@ -92,5 +95,28 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
                 Toast.makeText(CustomerOrdersActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setOnclickListenerAdapter(){
+        mAdapterClick = (v, position) -> {
+
+            String orderId = customerOrderDetailsModelArrayList.get(position).getOrderID();
+            String orderTo = customerOrderDetailsModelArrayList.get(position).getOrderTo();
+            String orderStatus = customerOrderDetailsModelArrayList.get(position).getOrderStatus();
+
+            if(orderStatus.equals("Delivery") || orderStatus.equals("Waiting") || orderStatus.equals("In Progress")){
+
+                Intent intent = new Intent(this,CustomerOrderDetailsActivity.class);
+                intent.putExtra("orderTo",orderTo);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+
+            }else if(orderStatus.equals("Completed")){
+                Intent intent = new Intent(this,CustomerHistoryDetailsActivity.class);
+                intent.putExtra("orderTo",orderTo);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+            }
+        };
     }
 }
