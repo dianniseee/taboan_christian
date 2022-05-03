@@ -25,10 +25,12 @@ public class AdapterSellerOrder extends RecyclerView.Adapter<AdapterSellerOrder.
 
     private final Context context;
     private ArrayList<SellerOrderModel> sellerOrderModelArrayList;
+    private OnAdapterClick listener;
 
-    public AdapterSellerOrder(Context context, ArrayList<SellerOrderModel> sellerOrderModelArrayList) {
+    public AdapterSellerOrder(Context context, ArrayList<SellerOrderModel> sellerOrderModelArrayList,OnAdapterClick listener) {
         this.context = context;
         this.sellerOrderModelArrayList = sellerOrderModelArrayList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -65,7 +67,7 @@ public class AdapterSellerOrder extends RecyclerView.Adapter<AdapterSellerOrder.
         return sellerOrderModelArrayList.size();
     }
 
-    class AdapterSellerOrderHolder extends RecyclerView.ViewHolder{
+    class AdapterSellerOrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView orderID,orderItems,orderStatus;
         public AdapterSellerOrderHolder(@NonNull View itemView) {
@@ -73,6 +75,16 @@ public class AdapterSellerOrder extends RecyclerView.Adapter<AdapterSellerOrder.
             orderID = itemView.findViewById(R.id.seller_row_order_id_value);
             orderItems = itemView.findViewById(R.id.seller_row_order_item_value);
             orderStatus = itemView.findViewById(R.id.seller_row_order_status);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            listener.onAdapterClick(v,getBindingAdapterPosition());
+        }
+    }
+
+    public interface OnAdapterClick{
+        void onAdapterClick(View v,int position);
     }
 }

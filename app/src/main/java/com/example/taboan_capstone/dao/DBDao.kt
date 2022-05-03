@@ -22,6 +22,9 @@ interface DBDao {
     @Query("SELECT DISTINCT productSellerID FROM customer_cart")
     fun getDistinctSeller(): List<String>
 
+    @Query("SELECT DISTINCT market_name FROM customer_cart")
+    fun getDistinctMarketCart(): List<String>
+
     @Query("SELECT * FROM customer_cart WHERE productSellerID IN (:id)")
     fun getCartSellerData(id: String): List<CustomerCartModel>
 
@@ -58,4 +61,7 @@ interface DBDao {
 
     @Query("DELETE FROM customer_cart WHERE id = :id")
     fun deleteCartById(id: Int)
+
+
+
 }

@@ -62,7 +62,9 @@ public class SellerOrdersActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         sellerOrderModelArrayList.clear();
+
                         for(DataSnapshot ds : snapshot.getChildren()){
                             SellerOrderModel sellerOrderModel = ds.getValue(SellerOrderModel.class);
                             sellerOrderModelArrayList.add(sellerOrderModel);
@@ -126,7 +128,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot ds: snapshot.getChildren()){
                             String orderStatus = ""+ds.child("orderStatus").getValue();
-
+                            String orderBy = ""+ds.child("orderBy").getValue();
                             if(orderStatus.equals("Waiting")){
 
                                 HashMap<String, Object> hashMap = new HashMap<>();
@@ -145,6 +147,19 @@ public class SellerOrdersActivity extends AppCompatActivity {
                                         Toast.makeText(SellerOrdersActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+                                DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                                custRef.child(Objects.requireNonNull(orderBy)).child("Orders").child(orderID).updateChildren(hashMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) { }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(SellerOrdersActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                             }
                         }
                     }

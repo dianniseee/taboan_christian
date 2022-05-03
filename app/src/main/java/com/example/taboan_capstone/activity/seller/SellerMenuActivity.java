@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.view.MotionEvent;
 import android.widget.Adapter;
@@ -52,7 +54,7 @@ public class SellerMenuActivity extends AppCompatActivity {
         sellerMenuList = findViewById(R.id.seller_menu_list);
 
         loadProducts();
-        setOnAdapterClick();
+
     }
 
     private void loadProducts() {
@@ -62,7 +64,9 @@ public class SellerMenuActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         productList.clear();
+
                         for(DataSnapshot ds : snapshot.getChildren()){
                             ProductModel modelProduct = ds.getValue(ProductModel.class);
                             productList.add(modelProduct);
@@ -70,6 +74,7 @@ public class SellerMenuActivity extends AppCompatActivity {
                         }
                         adapterSellerMenu = new AdapterSellerMenu(SellerMenuActivity.this, productList,onAdapterClick);
                         sellerMenuList.setAdapter(adapterSellerMenu);
+                        adapterSellerMenu.notifyDataSetChanged();
                     }
 
                     @Override
@@ -77,34 +82,50 @@ public class SellerMenuActivity extends AppCompatActivity {
                         Toast.makeText(SellerMenuActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        setOnAdapterClick();
     }
 
     private void setOnAdapterClick(){
         onAdapterClick = (v, position) -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(SellerMenuActivity.this);
-            AlertDialog alert = builder.create();
-            builder.setMessage("Do you want to logout?")
+            builder.setMessage("Setup menu list")
                     .setCancelable(false)
-                    .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
+                    .setPositiveButton(Html.fromHtml("<font color='#000000'>Available</font>"), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("prod_avail","Sold");
+                            hashMap.put("prod_avail","Available");
                             String prod_id = productList.get(position).getProd_id();
 
                             DatabaseReference reference = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
                             reference.child(Objects.requireNonNull(firebaseAuth.getUid())).child("Product").child(prod_id)
                                     .updateChildren(hashMap);
                         }
-                    }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(Html.fromHtml("<font color='#000000'>Out of Stock</font>"), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    alert.dismiss();
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("prod_avail","Out of Stock");
+                    String prod_id = productList.get(position).getProd_id();
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                    reference.child(Objects.requireNonNull(firebaseAuth.getUid())).child("Product").child(prod_id)
+                            .updateChildren(hashMap);
+                }
+            })
+            .setNeutralButton(Html.fromHtml("<font color='#000000'>Close</font>"), new DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                 }
             });
+
+            AlertDialog alert = builder.create();
             alert.show();
+
         };
     }
 }

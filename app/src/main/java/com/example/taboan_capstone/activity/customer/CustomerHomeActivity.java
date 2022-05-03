@@ -130,30 +130,42 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
     }
 
     private void notifyDialog(String market){
+        List<String> cartMarket = roomDatabase.dbDao().getDistinctMarketCart();
 
-        if(roomDatabase.dbDao().checkIfCustomerCartExist() > 0){
-            AlertDialog.Builder builder = new AlertDialog.Builder(CustomerHomeActivity.this);
-            AlertDialog alert = builder.create();
+        if(cartMarket.size() > 0 ){
 
-            builder.setMessage("You have already selected different market. If you continue your cart and selection will be removed. ")
-                    .setCancelable(false)
-                    .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
+            for(int i = 0; i < cartMarket.size(); i++){
+                String marketCart = cartMarket.get(i);
+
+                if(!market.equals(marketCart) && roomDatabase.dbDao().checkIfCustomerCartExist() > 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CustomerHomeActivity.this);
+
+                    builder.setMessage("You have already selected different market. If you continue your cart and selection will be removed. ")
+                            .setCancelable(false)
+                            .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    roomDatabase.dbDao().clearCustomerCart();
+                                    Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
+                                    intent.putExtra("market",market);
+                                    startActivity(intent);
+                                }
+                            }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            roomDatabase.dbDao().clearCustomerCart();
-                            alert.dismiss();
-                            Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
-                            intent.putExtra("market",market);
-                            startActivity(intent);
-                        }
-                    }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    alert.dismiss();
-                }
-            });
 
-            alert.show();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }else if(market.equals(marketCart) && roomDatabase.dbDao().checkIfCustomerCartExist() >= 0){
+                    Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
+                    intent.putExtra("market",market);
+                    startActivity(intent);
+                }
+            }
+
         }else{
             Intent intent = new Intent(CustomerHomeActivity.this, CustomerDashboardActivity.class);
             intent.putExtra("market",market);

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
+import com.example.taboan_capstone.activity.customer.CustomerHistoryDetailsActivity;
 import com.example.taboan_capstone.activity.customer.CustomerOrderDetailsActivity;
 import com.example.taboan_capstone.models.CustomerOrderDetailsModel;
 import com.example.taboan_capstone.models.ProductModel;
@@ -53,10 +54,11 @@ public class AdapterCustomerOrder extends  RecyclerView.Adapter<AdapterCustomerO
         CustomerOrderDetailsModel orderDetail = customerOrderDetailsModelArrayList.get(position);
 
         String orderBy = orderDetail.getOrderBy();
-        String storeID = orderDetail.getOrderTo();
         String orderSubtotal = orderDetail.getOrderTotal();
         String orderDateTime = orderDetail.getOrderDateTime();
         String orderStats = orderDetail.getOrderStatus();
+        String orderTo = orderDetail.getOrderTo();
+        String orderId = orderDetail.getOrderID();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(orderDateTime));
@@ -64,18 +66,29 @@ public class AdapterCustomerOrder extends  RecyclerView.Adapter<AdapterCustomerO
 
         if(orderBy.equals(fbUserId)){
 
-            loadStoreName(storeID,holder);
+            loadStoreName(orderTo,holder);
 
             holder.orderTime.setText(formattedDate);
             holder.orderTotal.setText(orderSubtotal);
             holder.orderStatus.setText(orderStats);
 
-
             holder.orderView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, CustomerOrderDetailsActivity.class);
-                    context.startActivity(intent);
+
+                    if(orderStats.equals("Delivery") || orderStats.equals("Waiting") || orderStats.equals("In Progress")){
+
+                        Intent intent = new Intent(context,CustomerOrderDetailsActivity.class);
+                        intent.putExtra("orderTo",orderTo);
+                        intent.putExtra("orderId",orderId);
+                        context.startActivity(intent);
+
+                    }else if(orderStats.equals("Completed")){
+                        Intent intent = new Intent(context, CustomerHistoryDetailsActivity.class);
+                        intent.putExtra("orderTo",orderTo);
+                        intent.putExtra("orderId",orderId);
+                        context.startActivity(intent);
+                    }
                 }
             });
         }
@@ -115,6 +128,8 @@ public class AdapterCustomerOrder extends  RecyclerView.Adapter<AdapterCustomerO
             orderTime = itemView.findViewById(R.id.customer_order_date);
             orderStatus = itemView.findViewById(R.id.customer_order_status);
             orderView = itemView.findViewById(R.id.customer_order_view);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override

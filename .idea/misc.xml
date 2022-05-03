@@ -61,11 +61,13 @@
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/email_bg_login.xml" value="0.1475" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_admin_history.xml" value="0.131" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_cover_add.xml" value="0.145" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_delivery.xml" value="0.1395" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_history.xml" value="0.1355" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_home.xml" value="0.1475" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1475" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_menu.xml" value="0.1" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_person.xml" value="0.1475" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_person_pin.xml" value="0.1395" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_portal_admin.xml" value="0.131" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_search.xml" value="0.1355" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/drawable/ic_shopbasket.xml" value="0.1475" />
@@ -98,7 +100,7 @@
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_history.xml" value="0.16" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_history_details.xml" value="0.2" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_home.xml" value="0.21" />
-        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_order_details.xml" value="0.15677083333333333" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_order_details.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_orders.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_profile.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_register.xml" value="0.22" />
@@ -131,6 +133,7 @@
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/cart_user_item.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/content_layout.xml" value="0.15" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/custom_dialog_driver_items.xml" value="0.22" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/custom_dialog_seller_items.xml" value="0.18" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/driver_base.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/driver_cart_item.xml" value="0.25" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/driver_coming_orders.xml" value="0.22" />
@@ -165,7 +168,7 @@
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_driver.xml" value="0.25" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_items.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_seller.xml" value="0.18" />
-        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_product_seller.xml" value="0.25" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_product_seller.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_shop.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/seller_login_dialog.xml" value="0.33" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/store_items.xml" value="0.2" />
@@ -200,5 +203,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
   </component>
 </project>

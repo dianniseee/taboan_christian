@@ -66,7 +66,6 @@
             android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:padding="5dp"
-            android:src="@drawable/cat4"
             android:scaleType="fitXY" />
 
 
@@ -117,7 +116,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlUserOHDetails"
-            android:nestedScrollingEnabled="false"
             android:padding="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

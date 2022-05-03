@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public class CustomerStoreDetailsActivity extends AppCompatActivity  {
 
     private GridLayoutManager gridLayoutManager;
-    private String getUid;
+    private String getUid,marketName;
     private RecyclerView seller_product_list;
     private ArrayList<ProductModel> productsList;
     private AdapterSellerProduct adapterSellerProduct;
@@ -68,6 +68,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
 
         if(getIntent() != null){
             getUid = getIntent().getStringExtra(Constants.Companion.getSELLER_GET_UID());
+            marketName = getIntent().getStringExtra("market");
             loadShopDetails(getUid);
             setUpProducts(getUid);
         }
@@ -210,6 +211,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                             0,
                             getProdID,
                             getSellerID,
+                            marketName,
                             getProdName,
                             getProdDescription,
                             getProdCategory,
@@ -227,6 +229,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                                 0,
                                 Globals.INSTANCE.getUserCart().getProductID(),
                                 Globals.INSTANCE.getUserCart().getProductSellerID(),
+                                Globals.INSTANCE.getUserCart().getMarket_name(),
                                 Globals.INSTANCE.getUserCart().getProductName(),
                                 Globals.INSTANCE.getUserCart().getProduct_Desc(),
                                 Globals.INSTANCE.getUserCart().getProduct_category(),
@@ -283,6 +286,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                             0,
                             getProdID,
                             getSellerID,
+                            marketName,
                             getProdName,
                             getProdDescription,
                             getProdCategory,
@@ -301,6 +305,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                                 0,
                                 Globals.INSTANCE.getUserCart().getProductID(),
                                 Globals.INSTANCE.getUserCart().getProductSellerID(),
+                                Globals.INSTANCE.getUserCart().getMarket_name(),
                                 Globals.INSTANCE.getUserCart().getProductName(),
                                 Globals.INSTANCE.getUserCart().getProduct_Desc(),
                                 Globals.INSTANCE.getUserCart().getProduct_category(),

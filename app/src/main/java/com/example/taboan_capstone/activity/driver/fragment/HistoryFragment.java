@@ -97,7 +97,9 @@ public class HistoryFragment extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         driverOrderModelArrayList.clear();
+
                         for(DataSnapshot ds : snapshot.getChildren()){
                             DriverOrderModel modelProduct = ds.getValue(DriverOrderModel.class);
                             driverOrderModelArrayList.add(modelProduct);

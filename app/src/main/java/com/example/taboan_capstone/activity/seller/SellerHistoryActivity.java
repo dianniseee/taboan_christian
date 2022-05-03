@@ -47,7 +47,9 @@ public class SellerHistoryActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         sellerOrderModelArrayList.clear();
+
                         for(DataSnapshot ds : snapshot.getChildren()){
                             SellerOrderModel modelProduct = ds.getValue(SellerOrderModel.class);
                             sellerOrderModelArrayList.add(modelProduct);

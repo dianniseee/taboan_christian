@@ -7,6 +7,8 @@ import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -155,8 +157,6 @@ public class CustomerCartActivity extends AppCompatActivity {
 
             String id = currentCart.get(i);
 
-            Log.d("CartSellerID",""+id);
-
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("orderID", "" + timestamp);
             hashMap.put("userID", "" + firebaseAuth.getUid());
@@ -164,15 +164,15 @@ public class CustomerCartActivity extends AppCompatActivity {
             hashMap.put("orderTo", "" + id);
             hashMap.put("orderMarket", "" + getMarketName);
             hashMap.put("orderDateTime", "" + timestamp);
-            hashMap.put("orderDriverID","" + "null");
-            hashMap.put("orderStatus", ""+ "Waiting");
-            hashMap.put("orderSubTotal",""+getSubtotal);
+            hashMap.put("orderDriverID", ""+ "null");
+            hashMap.put("orderStatus", "" +"Waiting");
+            hashMap.put("orderSubTotal","" +getTotal);
             hashMap.put("orderTotal", "" + getTotal);
+            hashMap.put("orderDelivered",""+"null");
 
             DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users").child(id).child("Orders");
             ref.child(timestamp).setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onSuccess(Void unused) {
 
@@ -199,23 +199,65 @@ public class CustomerCartActivity extends AppCompatActivity {
                                 hashMapCart.put("subtotal", "" + subtotal);
 
                                 ref.child(timestamp).child("Items").child(productID).setValue(hashMapCart);
-                                roomDatabase.dbDao().deleteCartById(id);
-
+                                //roomDatabase.dbDao().deleteCartById(id);
+                                //delete cart by id will now only execute after the order of customer is finish importing
                             }
                             Toast.makeText(CustomerCartActivity.this, "Order Submitted", Toast.LENGTH_SHORT).show();
                             adapterCustomerCart.notifyDataSetChanged();
-
                             if(roomDatabase.dbDao().checkIfCustomerCartExist() == 0){
                                noCartCover.setVisibility(View.VISIBLE);
                             }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                    }).addOnFailureListener(e -> Toast.makeText(CustomerCartActivity.this, "CustomerCart"+e.getMessage(), Toast.LENGTH_SHORT).show());
 
-                    Toast.makeText(CustomerCartActivity.this, "CustomerCart"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users").child(firebaseAuth.getUid()).child("Orders");
+                custRef.child(timestamp).setValue(hashMap)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                                List<CustomerCartModel> cartItems = roomDatabase.dbDao().getCartSellerData(id);
+                                for(int x = 0; x < cartItems.size(); x++){
+
+                                    int id1 = cartItems.get(x).getId();
+                                    String productID = cartItems.get(x).getProductID();
+                                    String productName = cartItems.get(x).getProductName();
+                                    String product_Desc = cartItems.get(x).getProduct_Desc();
+                                    String product_category = cartItems.get(x).getProduct_category();
+                                    double price_each = cartItems.get(x).getPrice_each();
+                                    double quantity = cartItems.get(x).getQuantity();
+                                    double subtotal = cartItems.get(x).getSubtotal();
+
+                                    HashMap<String, String> hashMapCart = new HashMap<>();
+                                    hashMapCart.put("id", "" + id1);
+                                    hashMapCart.put("productID", "" + productID);
+                                    hashMapCart.put("productName", "" + productName);
+                                    hashMapCart.put("product_Desc", "" + product_Desc);
+                                    hashMapCart.put("product_category", "" + product_category);
+                                    hashMapCart.put("price_each", "" + price_each);
+                                    hashMapCart.put("quantity", "" + quantity);
+                                    hashMapCart.put("subtotal", "" + subtotal);
+
+                                    custRef.child(timestamp).child("Items").child(productID).setValue(hashMapCart);
+                                    roomDatabase.dbDao().deleteCartById(id1);
+
+                                }
+                                Toast.makeText(CustomerCartActivity.this, "Order Submitted", Toast.LENGTH_SHORT).show();
+                                adapterCustomerCart.notifyDataSetChanged();
+                                if(roomDatabase.dbDao().checkIfCustomerCartExist() == 0){
+                                    noCartCover.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CustomerCartActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            },1000);
+
         }
     }
 

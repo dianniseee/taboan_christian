@@ -11,8 +11,4 @@ object Globals {
     lateinit var currentUser: CurrentUserModel
     lateinit var  userCart: CustomerCartModel
     lateinit var  currentDriver: DriverModel
-
-    lateinit var isAvailable: String
-
-    var selectedIndex: Int? = null
 }

@@ -123,7 +123,7 @@ public class DriverDeliveryActivity extends AppCompatActivity implements Locatio
 
         DatabaseReference orderRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         orderRef.child(firebaseAuth.getUid()).child("Orders").orderByChild("orderStatus").equalTo("Delivery")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -178,6 +178,7 @@ public class DriverDeliveryActivity extends AppCompatActivity implements Locatio
 
         adapterDriverItems = new AdapterDriverItems(context,driverProductModelArrayList);
         orderItems.setAdapter(adapterDriverItems);
+        adapterDriverItems.notifyDataSetChanged();
 
         delivered.setOnClickListener(new View.OnClickListener() {
             @Override

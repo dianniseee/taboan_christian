@@ -165,7 +165,7 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
-            super.onBackPressed();
+            showCustomDialog();
         }
     }
 
@@ -195,20 +195,10 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online","false");
 
-        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Sellers");
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        checkUserType();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(DriverDrawerActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnSuccessListener(aVoid -> checkUserType())
+                .addOnFailureListener(e -> Toast.makeText(DriverDrawerActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void checkUserType(){

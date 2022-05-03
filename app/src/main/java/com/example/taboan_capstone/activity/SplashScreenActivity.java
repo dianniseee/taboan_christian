@@ -105,10 +105,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        loadUserInfo();
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                loadUserInfo();
                                 checkUserType();
                             }
                         },500);
@@ -159,16 +159,32 @@ public class SplashScreenActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot ds: snapshot.getChildren()){
 
-                            Globals.currentUser = new CurrentUserModel(
-                                    0,
-                                    ds.child("uid").getValue().toString(),
-                                    ds.child("first_name").getValue().toString(),
-                                    ds.child("last_name").getValue().toString(),
-                                    ds.child("email").getValue().toString(),
-                                    ds.child("password").getValue().toString(),
-                                    ds.child("phoneNum").getValue().toString(),
-                                    ds.child("accountType").getValue().toString()
-                            );
+                            String accountType = "" +ds.child("accountType").getValue().toString();
+
+                            if(accountType.equals("Seller")){
+                                Globals.currentUser = new CurrentUserModel(
+                                        0,
+                                        ds.child("uid").getValue().toString(),
+                                        ds.child("first_name").getValue().toString(),
+                                        ds.child("last_name").getValue().toString(),
+                                        ds.child("email").getValue().toString(),
+                                        ds.child("store_password").getValue().toString(),
+                                        ds.child("phoneNum").getValue().toString(),
+                                        ds.child("accountType").getValue().toString()
+                                );
+                            }else{
+                                Globals.currentUser = new CurrentUserModel(
+                                        0,
+                                        ds.child("uid").getValue().toString(),
+                                        ds.child("first_name").getValue().toString(),
+                                        ds.child("last_name").getValue().toString(),
+                                        ds.child("email").getValue().toString(),
+                                        ds.child("password").getValue().toString(),
+                                        ds.child("phoneNum").getValue().toString(),
+                                        ds.child("accountType").getValue().toString()
+                                );
+                            }
+
                         }
                     }
                     @Override

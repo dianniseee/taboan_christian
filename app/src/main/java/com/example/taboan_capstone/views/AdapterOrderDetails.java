@@ -10,19 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taboan_capstone.R;
-import com.example.taboan_capstone.models.CustomerCartModel;
 import com.example.taboan_capstone.models.CustomerHistoryModel;
+import com.example.taboan_capstone.models.CustomerOrderDetailsModel;
+import com.example.taboan_capstone.models.CustomerOrderDetailsProductModel;
 
 import java.util.ArrayList;
 
-public class AdapterCustomerHistory extends RecyclerView.Adapter<AdapterCustomerHistory.AdapterCustomerHistoryHolder>{
+public class AdapterOrderDetails extends RecyclerView.Adapter<AdapterOrderDetails.AdapterCustomerHistoryHolder>{
 
     private final Context context;
-    private final ArrayList<CustomerHistoryModel> customerHistoryModelArrayList;
+    private final ArrayList<CustomerOrderDetailsProductModel> customerOrderDetailsProductModelArrayList;
 
-    public AdapterCustomerHistory(Context context, ArrayList<CustomerHistoryModel> customerHistoryModelArrayList) {
+    public AdapterOrderDetails(Context context, ArrayList<CustomerOrderDetailsProductModel> customerOrderDetailsProductModelArrayList) {
         this.context = context;
-        this.customerHistoryModelArrayList = customerHistoryModelArrayList;
+        this.customerOrderDetailsProductModelArrayList = customerOrderDetailsProductModelArrayList;
     }
 
     @NonNull
@@ -34,12 +35,12 @@ public class AdapterCustomerHistory extends RecyclerView.Adapter<AdapterCustomer
 
     @Override
     public void onBindViewHolder(@NonNull AdapterCustomerHistoryHolder holder, int position) {
-        CustomerHistoryModel customerHistoryModel = customerHistoryModelArrayList.get(position);
+        CustomerOrderDetailsProductModel customerOrderDetailsProductModel = customerOrderDetailsProductModelArrayList.get(position);
 
-        String setName = customerHistoryModel.getProductName();
-        double setQuantity = Double.parseDouble(customerHistoryModel.getQuantity());
-        double setSubtotal = Double.parseDouble(customerHistoryModel.getSubtotal());
-        String setCategory = customerHistoryModel.getProduct_category();
+        String setName = customerOrderDetailsProductModel.getProductName();
+        double setQuantity = Double.parseDouble(customerOrderDetailsProductModel.getQuantity());
+        double setSubtotal = Double.parseDouble(customerOrderDetailsProductModel.getSubtotal());
+        String setCategory = customerOrderDetailsProductModel.getProduct_category();
 
         if(setCategory.equals("Pieces") || setCategory.equals("Bundle")){
             int getQuantity = (int) setQuantity;
@@ -55,7 +56,7 @@ public class AdapterCustomerHistory extends RecyclerView.Adapter<AdapterCustomer
 
     @Override
     public int getItemCount() {
-        return customerHistoryModelArrayList.size();
+        return customerOrderDetailsProductModelArrayList.size();
     }
 
     class AdapterCustomerHistoryHolder extends RecyclerView.ViewHolder{

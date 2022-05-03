@@ -56,6 +56,7 @@ public class CustomerHistoryDetailsActivity extends AppCompatActivity {
         orderId = findViewById(R.id.customer_history_order_id_value);
         subtotal = findViewById(R.id.customer_history_subtotal_value);
         total = findViewById(R.id.customer_history_total_value);
+        orderList = findViewById(R.id.customer_history_order_list);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -75,13 +76,7 @@ public class CustomerHistoryDetailsActivity extends AppCompatActivity {
 
         loadStore(getorderTo);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadOrderDetails(getOrderId,getorderTo);
-                loadOrderedItems(getorderTo,getOrderId);
-            }
-        },500);
+        loadOrderDetails(getOrderId,getorderTo);
     }
 
     private void loadStore(String getOrderTo){
@@ -95,7 +90,7 @@ public class CustomerHistoryDetailsActivity extends AppCompatActivity {
 
                             String sName = "" + ds.child("store_name").getValue();
                             String sMarket = "" + ds.child("store_market").getValue();
-                            String shopImg = "" +ds.child("profileImage").getValue();
+                            String shopImg = "" +ds.child("cover_photo").getValue();
 
                             Glide.with(CustomerHistoryDetailsActivity.this).load(shopImg).into(coverPhoto);
                             storeName.setText(sName);
@@ -104,7 +99,7 @@ public class CustomerHistoryDetailsActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(CustomerHistoryDetailsActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -118,8 +113,12 @@ public class CustomerHistoryDetailsActivity extends AppCompatActivity {
                         for(DataSnapshot ds : snapshot.getChildren()){
 
                             String orderTotal = ""+ds.child("orderTotal").getValue();
-                            total.setText("₱ " + String.format("%.2f", orderTotal));
-                            subtotal.setText("₱ " + String.format("%.2f", orderTotal));
+                            String orderTO = ""+ds.child("orderTo").getValue();
+                            String orderId = ""+ds.child("orderID").getValue();
+                            total.setText("₱ " +orderTotal);
+                            subtotal.setText("₱ " + orderTotal);
+
+                            loadOrderedItems(orderTO,orderId);
                         }
                     }
 
@@ -134,22 +133,22 @@ public class CustomerHistoryDetailsActivity extends AppCompatActivity {
 
         customerHistoryModelArrayList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(getOrderTo).child("Orders").child(getOrderId).child("Items")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                        customerHistoryModelArrayList.clear();
+
                         for(DataSnapshot ds: snapshot.getChildren()){
                             CustomerHistoryModel modelOrderHistory = ds.getValue(CustomerHistoryModel.class);
-
-
                             customerHistoryModelArrayList.add(modelOrderHistory);
                         }
 
-
                         adapterCustomerHistory = new AdapterCustomerHistory(CustomerHistoryDetailsActivity.this, customerHistoryModelArrayList);
                         orderList.setAdapter(adapterCustomerHistory);
+                        adapterCustomerHistory.notifyDataSetChanged();
                     }
 
                     @Override

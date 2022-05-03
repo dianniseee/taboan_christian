@@ -144,9 +144,10 @@ public class CustomerDashboardActivity extends AppCompatActivity {
                             }
                             
                         }
-                        adapterStore = new AdapterStore(CustomerDashboardActivity.this,shopList);
+                        adapterStore = new AdapterStore(CustomerDashboardActivity.this,shopList,market);
                         storeList.setAdapter(adapterStore);
                         storeList.setLayoutManager(new LinearLayoutManager(CustomerDashboardActivity.this));
+                        adapterStore.notifyDataSetChanged();
                     }
 
                     @Override
