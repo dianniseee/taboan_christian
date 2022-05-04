@@ -73,6 +73,16 @@
             android:text="subtotal"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/add_cart_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_cart_subtotal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Kilo" />
 
         <LinearLayout
             android:id="@+id/add_cart_quantity_base"
@@ -80,9 +90,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/add_cart_subtotal"
             android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="35dp"
             android:orientation="horizontal">
 
             <ImageView

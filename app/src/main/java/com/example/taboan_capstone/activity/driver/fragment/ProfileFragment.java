@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -99,8 +102,7 @@ public class ProfileFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                saveData();
             }
         });
 
@@ -109,6 +111,38 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    private void saveData(){
+        String fName,lName,address,mobile,email,password;
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        fName = ti_FirstName.getEditText().getText().toString().trim();
+        lName = ti_LastName.getEditText().getText().toString().trim();
+        address = ti_Address.getEditText().getText().toString().trim();
+        mobile = ti_Mobile.getEditText().getText().toString().trim();
+        email = ti_Email.getEditText().getText().toString().trim();
+        password = ti_Password.getEditText().getText().toString().trim();
+
+        hashMap.put("email", "" + email);
+        hashMap.put("first_name", "" + fName);
+        hashMap.put("last_name", "" + lName);
+        hashMap.put("phoneNum", "" + mobile);
+        hashMap.put("address", "" + address);
+        hashMap.put("password", "" + password);
+
+        ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
+                .addOnSuccessListener(unused -> Toast.makeText(ProfileFragment.this.getContext(), "Profile Update successfully",Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(ProfileFragment.this.getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getInformation();
+            }
+        },500);
+
+    }
 
     private void getInformation(){
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");

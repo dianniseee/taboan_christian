@@ -105,11 +105,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        loadUserInfo();
-
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                loadUserInfo();
                                 checkUserType();
                             }
                         },500);
