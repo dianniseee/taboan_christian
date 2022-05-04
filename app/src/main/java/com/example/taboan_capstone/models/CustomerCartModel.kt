@@ -11,6 +11,7 @@ data class CustomerCartModel(
         @PrimaryKey(autoGenerate = true) @NonNull val id: Int,
         val productID: String,
         val productSellerID: String,
+        val market_name: String,
         val productName: String,
         val product_Desc: String,
         val product_category: String,

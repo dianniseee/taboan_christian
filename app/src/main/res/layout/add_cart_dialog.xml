@@ -60,6 +60,18 @@
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-black"
             android:text="price"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/add_cart_category"
+            android:layout_below="@+id/add_cart_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-black"
+            android:text="category"
             android:textSize="15sp" />
 
         <TextView

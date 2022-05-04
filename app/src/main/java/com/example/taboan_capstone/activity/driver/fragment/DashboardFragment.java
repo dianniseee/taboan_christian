@@ -181,7 +181,7 @@ public class DashboardFragment extends Fragment {
 
                             sellerOrderModelArrayList = new ArrayList<>();
                             DatabaseReference refOrders = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                            refOrders.child(shopUID).child("Orders").orderByChild("orderStatus").equalTo("In Progress")
+                            refOrders.child(shopUID).child("Orders").orderByChild("orderStatus").equalTo("Ready")
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {

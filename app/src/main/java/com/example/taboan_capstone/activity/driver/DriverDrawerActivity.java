@@ -165,12 +165,13 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
-            super.onBackPressed();
+            showCustomDialog();
         }
     }
 
     private void showCustomDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(DriverDrawerActivity.this);
+        AlertDialog alert = builder.create();
         builder.setMessage("Do you want to logout?")
                 .setCancelable(false)
                 .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
@@ -181,10 +182,11 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
                 }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                alert.dismiss();
             }
         });
 
-        AlertDialog alert = builder.create();
+
         alert.show();
     }
 
@@ -193,20 +195,10 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online","false");
 
-        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Sellers");
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        checkUserType();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(DriverDrawerActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnSuccessListener(aVoid -> checkUserType())
+                .addOnFailureListener(e -> Toast.makeText(DriverDrawerActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void checkUserType(){

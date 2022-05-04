@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.taboan_capstone.DrawerBaseActivity;
@@ -23,8 +25,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CustomerOrdersActivity extends DrawerBaseActivity {
 
@@ -40,50 +44,40 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCustomerOrdersBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
+
         allocateActivtyTitle("Orders");
         firebaseAuth = FirebaseAuth.getInstance();
+
         customer_order_rv = binding.getRoot().findViewById(R.id.customer_order_rv);
 
         loadOrders();
+        setOnclickListenerAdapter();
     }
 
     private void loadOrders(){
+
         customerOrderDetailsModelArrayList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-        ref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref1 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users").child(firebaseAuth.getUid()).child("Orders");
+        ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 customerOrderDetailsModelArrayList.clear();
 
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    String uid = ""+ds.getRef().getKey();
+                if(snapshot.exists()){
+                    for(DataSnapshot ds : snapshot.getChildren()){
+                        CustomerOrderDetailsModel modelOrderUser = ds.getValue(CustomerOrderDetailsModel.class);
 
-                    DatabaseReference ref1 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users").child(uid).child("Orders");
-                    ref1.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.d("DataOrderDetails",""+snapshot.getChildren());
+                        customerOrderDetailsModelArrayList.add(modelOrderUser);
+                    }
 
-                            if(snapshot.exists()){
-                                for(DataSnapshot ds : snapshot.getChildren()){
-                                    CustomerOrderDetailsModel modelOrderUser = ds.getValue(CustomerOrderDetailsModel.class);
 
-                                    Log.d("DataOrderDetails",""+snapshot.getChildren());
-                                    customerOrderDetailsModelArrayList.add(modelOrderUser);
-                                }
-
-                                adapterCustomerOrder = new AdapterCustomerOrder(CustomerOrdersActivity.this,customerOrderDetailsModelArrayList,mAdapterClick,firebaseAuth.getUid());
-                                customer_order_rv.setAdapter(adapterCustomerOrder);
-                                customer_order_rv.scrollToPosition(0);
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(CustomerOrdersActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    adapterCustomerOrder = new AdapterCustomerOrder(CustomerOrdersActivity.this,customerOrderDetailsModelArrayList,mAdapterClick,firebaseAuth.getUid());
+                    customer_order_rv.setAdapter(adapterCustomerOrder);
+                   // customer_order_rv.scrollToPosition(0);
+                    adapterCustomerOrder.notifyDataSetChanged();
                 }
             }
 
@@ -92,5 +86,28 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
                 Toast.makeText(CustomerOrdersActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setOnclickListenerAdapter(){
+        mAdapterClick = (v, position) -> {
+
+            String orderId = customerOrderDetailsModelArrayList.get(position).getOrderID();
+            String orderTo = customerOrderDetailsModelArrayList.get(position).getOrderTo();
+            String orderStatus = customerOrderDetailsModelArrayList.get(position).getOrderStatus();
+
+            if(orderStatus.equals("Delivery") || orderStatus.equals("Waiting") || orderStatus.equals("In Progress")){
+
+                Intent intent = new Intent(this,CustomerOrderDetailsActivity.class);
+                intent.putExtra("orderTo",orderTo);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+
+            }else if(orderStatus.equals("Completed")){
+                Intent intent = new Intent(this,CustomerHistoryDetailsActivity.class);
+                intent.putExtra("orderTo",orderTo);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+            }
+        };
     }
 }

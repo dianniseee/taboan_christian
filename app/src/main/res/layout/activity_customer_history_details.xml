@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.customer.CustomerHistoryDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:id="@+id/customer_history_nav_header"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_rect05"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/customer_history_close_history"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:elevation="1dp"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_back_green" />
+
+
+            <TextView
+                android:id="@+id/customer_history_store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Store Name"
+                android:textColor="@color/colorGray"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/customer_history_market_name"
+                android:layout_below="@+id/customer_history_store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_centerInParent="true"
+                android:text="Store Name"
+                android:textColor="@color/colorGray"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/customer_history_cover_photo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:padding="5dp"
+            android:scaleType="fitXY" />
+
+
+        <RelativeLayout
+            android:id="@+id/customer_history_base_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ivUserOHShopCover"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/customer_history_order_details_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Details"
+                android:textColor="@color/colorBlack"
+                android:gravity="center"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/customer_history_order_id_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customer_history_order_details_text"
+                android:layout_marginTop="9dp"
+                android:text="Order ID:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/customer_history_order_id_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customer_history_order_details_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorGreen"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:padding="3dp"
+                android:text="12312312321"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customer_history_order_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlUserOHDetails"
+            android:padding="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <RelativeLayout
+            android:id="@+id/customer_history_subtotal_base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rvUserOHItemsValue"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/customer_history_subtotal_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif"
+                android:text="SubTotal"
+                android:textColor="@color/colorGray"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/customer_history_subtotal_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif"
+                android:text="P 90.00"
+                android:textColor="@color/colorGray"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/customer_history_total_base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlUserOHSubtotalBase"
+            android:background="@color/colorGrayWhite"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/customer_history_total_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Total"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/customer_history_total_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="P 90.00"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

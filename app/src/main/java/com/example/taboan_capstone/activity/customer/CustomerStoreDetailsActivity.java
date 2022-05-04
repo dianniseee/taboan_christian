@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public class CustomerStoreDetailsActivity extends AppCompatActivity  {
 
     private GridLayoutManager gridLayoutManager;
-    private String getUid;
+    private String getUid,marketName;
     private RecyclerView seller_product_list;
     private ArrayList<ProductModel> productsList;
     private AdapterSellerProduct adapterSellerProduct;
@@ -68,6 +68,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
 
         if(getIntent() != null){
             getUid = getIntent().getStringExtra(Constants.Companion.getSELLER_GET_UID());
+            marketName = getIntent().getStringExtra("market");
             loadShopDetails(getUid);
             setUpProducts(getUid);
         }
@@ -145,6 +146,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         TextView prodPrice = view.findViewById(R.id.add_cart_price);
         TextView addSubtotal = view.findViewById(R.id.add_cart_subtotal);
         TextView quantity = view.findViewById(R.id.add_cart_quantity);
+        TextView addCategory = view.findViewById(R.id.add_cart_category);
 
         String getProdID = productsList.get(position).getProd_id();
         String getSellerID = productsList.get(position).getProd_seller();
@@ -155,10 +157,15 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         String getProdAvailable = productsList.get(position).getProd_avail();
         String getProdPrice = productsList.get(position).getProd_price();
 
+        addCategory.setText(getProdCategory);
         quantity.setText(String.valueOf((int)setQuantity));
         prodName.setText(getProdName);
         prodDescription.setText(getProdDescription);
         prodPrice.setText("₱ "+getProdPrice);
+        addSubtotal.setText("₱ " + setSubTotal);
+
+        bundlePieces = (int) setQuantity;
+        setSubTotal = bundlePieces * Double.parseDouble(getProdPrice);
         addSubtotal.setText("₱ " + setSubTotal);
 
         if(getProdCategory.equals("Pieces") || getProdCategory.equals("Bundle")){
@@ -185,7 +192,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                 @Override
                 public void onClick(View view) {
 
-                    if(setQuantity > 1){
+                    if(setQuantity > 0.25){
                         setQuantity--;
                         bundlePieces = (int) setQuantity;
 
@@ -204,6 +211,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                             0,
                             getProdID,
                             getSellerID,
+                            marketName,
                             getProdName,
                             getProdDescription,
                             getProdCategory,
@@ -221,6 +229,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                                 0,
                                 Globals.INSTANCE.getUserCart().getProductID(),
                                 Globals.INSTANCE.getUserCart().getProductSellerID(),
+                                Globals.INSTANCE.getUserCart().getMarket_name(),
                                 Globals.INSTANCE.getUserCart().getProductName(),
                                 Globals.INSTANCE.getUserCart().getProduct_Desc(),
                                 Globals.INSTANCE.getUserCart().getProduct_category(),
@@ -277,6 +286,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                             0,
                             getProdID,
                             getSellerID,
+                            marketName,
                             getProdName,
                             getProdDescription,
                             getProdCategory,
@@ -295,6 +305,7 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                                 0,
                                 Globals.INSTANCE.getUserCart().getProductID(),
                                 Globals.INSTANCE.getUserCart().getProductSellerID(),
+                                Globals.INSTANCE.getUserCart().getMarket_name(),
                                 Globals.INSTANCE.getUserCart().getProductName(),
                                 Globals.INSTANCE.getUserCart().getProduct_Desc(),
                                 Globals.INSTANCE.getUserCart().getProduct_category(),

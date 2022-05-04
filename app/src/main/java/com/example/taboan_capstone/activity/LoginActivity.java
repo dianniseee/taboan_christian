@@ -65,8 +65,6 @@ public class LoginActivity extends AppCompatActivity {
     //Firebase
     private FirebaseAuth firebaseAuth;
 
-    //RoomDatabse
-    private RoomDatabase roomDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -326,7 +324,6 @@ public class LoginActivity extends AppCompatActivity {
                             );
 
                             Globals.currentDriver = ds.getValue(DriverModel.class);
-                            Globals.INSTANCE.setAvailable(""+ds.child("availStat").getValue().toString());
                         }
 
                         emailLogin.getEditText().getText().clear();

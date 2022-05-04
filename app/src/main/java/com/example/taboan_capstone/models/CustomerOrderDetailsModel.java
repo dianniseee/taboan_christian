@@ -3,11 +3,13 @@ package com.example.taboan_capstone.models;
 public class CustomerOrderDetailsModel {
 
     private String orderID , userID, orderBy, orderTo,  orderMarket,
-            orderDateTime, orderDriverID, orderStatus, orderSubTotal, orderTotal;
+            orderDateTime, orderDriverID, orderStatus, orderSubTotal, orderTotal,orderDelivered;
 
-    public CustomerOrderDetailsModel(){ }
+    public CustomerOrderDetailsModel(){
 
-    public CustomerOrderDetailsModel(String orderID, String userID, String orderBy, String orderTo, String orderMarket, String orderDateTime, String orderDriverID, String orderStatus, String orderSubTotal, String orderTotal) {
+    }
+
+    public CustomerOrderDetailsModel(String orderID, String userID, String orderBy, String orderTo, String orderMarket, String orderDateTime, String orderDriverID, String orderStatus, String orderSubTotal, String orderTotal, String orderDelivered) {
         this.orderID = orderID;
         this.userID = userID;
         this.orderBy = orderBy;
@@ -18,6 +20,7 @@ public class CustomerOrderDetailsModel {
         this.orderStatus = orderStatus;
         this.orderSubTotal = orderSubTotal;
         this.orderTotal = orderTotal;
+        this.orderDelivered = orderDelivered;
     }
 
     public String getOrderID() {
@@ -98,5 +101,13 @@ public class CustomerOrderDetailsModel {
 
     public void setOrderTotal(String orderTotal) {
         this.orderTotal = orderTotal;
+    }
+
+    public String getOrderDelivered() {
+        return orderDelivered;
+    }
+
+    public void setOrderDelivered(String orderDelivered) {
+        this.orderDelivered = orderDelivered;
     }
 }

@@ -82,7 +82,7 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
         hashMap.put("orderTo", "" + sellerOrderModel.getOrderTo());
         hashMap.put("orderMarket", "" + sellerOrderModel.getOrderMarket());
         hashMap.put("orderDateTime", "" + sellerOrderModel.getOrderDateTime());
-        hashMap.put("orderDriverID","" + ""+firebaseAuth.getUid());
+        hashMap.put("orderDriverID","" + firebaseAuth.getUid());
         hashMap.put("orderStatus", ""+ "Delivery");
         hashMap.put("orderSubTotal",""+sellerOrderModel.getOrderSubTotal());
         hashMap.put("orderTotal", "" + sellerOrderModel.getOrderTotal());
@@ -93,7 +93,7 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
                     @Override
                     public void onSuccess(Void unused) {
                         addOrderItems(sellerOrderModel);
-                        updateShopSelected(sellerOrderModel);
+                        updateOrderStatus(sellerOrderModel);
                         driverStatus();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -149,9 +149,10 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
                 });
     }
 
-    private void updateShopSelected(SellerOrderModel sellerOrderModel){
+    private void updateOrderStatus(SellerOrderModel sellerOrderModel){
         String orderID = sellerOrderModel.getOrderID();
         String orderTo = sellerOrderModel.getOrderTo();
+        String orderBy = sellerOrderModel.getOrderBy();
 
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("orderDriverID",""+firebaseAuth.getUid());
@@ -160,7 +161,9 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(orderTo).child("Orders").child(orderID).updateChildren(hashMap);
 
-        Globals.INSTANCE.setAvailable("Delivery");
+        DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+        custRef.child(orderBy).child("Orders").child(orderID).updateChildren(hashMap);
+
     }
 
     private void driverStatus(){

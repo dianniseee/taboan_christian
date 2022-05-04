@@ -208,7 +208,6 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                     mPermissionResultLauncher.launch(permissionsRequest.toArray(new String[0]));
                 }
 
-
             } else {
                 ActivityCompat.requestPermissions((Activity) DeliveryFragment.this.getContext(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
                 permissionsRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -244,6 +243,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
         adapterDriverItems = new AdapterDriverItems(context,driverProductModelArrayList);
         orderItems.setAdapter(adapterDriverItems);
+        adapterDriverItems.notifyDataSetChanged();
 
         delivered.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +282,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                             hashMapPayment.put("orderDelivered",""+timestamp);
 
                             DatabaseReference custStore = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                            custStore.child(driverOrderModel.getOrderBy()).child("Orders").child(timestamp).setValue(hashMapPayment)
+                            custStore.child(driverOrderModel.getOrderBy()).child("Orders").child(timestamp).updateChildren(hashMapPayment)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -440,7 +440,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
         DatabaseReference dref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         dref.orderByChild("uid").equalTo(firebaseAuth.getUid())
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -463,14 +463,14 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
                             }
                             catch (Exception e){
-                                Toast.makeText(DeliveryFragment.this.getContext(), "5"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "5"+e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(DeliveryFragment.this.getContext(), "6"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "6"+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -506,21 +506,53 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                                                     dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.ic_person_pin)));
                                                 }
                                                 catch (Exception e){
-                                                    Toast.makeText(DeliveryFragment.this.getContext(), "7"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "7"+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(DeliveryFragment.this.getContext(), "8"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "8"+error.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
+
+                            DatabaseReference storeRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                            storeRef.orderByChild("uid").equalTo(orderTo).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for(DataSnapshot ds : snapshot.getChildren()){
+
+                                        try {
+
+                                            String fName = ""+ds.child("first_name").getValue();
+                                            String lName = ""+ds.child("last_name").getValue();
+
+                                            customerLat = Double.parseDouble(""+ds.child("latitude").getValue());
+                                            customerLong = Double.parseDouble(""+ds.child("longitude").getValue());
+
+                                            customerFullName = fName+" "+lName;
+
+                                            LatLng custLoc = new LatLng(customerLat, customerLong);
+
+                                            dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.tstorepin)));
+                                        }
+                                        catch (Exception e){
+                                            Toast.makeText(getContext(), "7"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(DeliveryFragment.this.getContext(), "11"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "11"+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -559,6 +591,17 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
         ref.child(firebaseAuth.getUid()).updateChildren(hashMap);
 
         geolocationValue.setText(" " +latitude +"    " +longitude);
+
+        if(dMarker != null){
+            dMarker.remove();
+            dMarker = null;
+        }
+
+        LatLng driverLoc = new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude));
+        dMarker = dMap.addMarker(new MarkerOptions().position(driverLoc).title("You").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(),R.drawable.triderpin)));
+        dMap.moveCamera(CameraUpdateFactory.newLatLng(driverLoc));
+        dMap.getUiSettings().setZoomControlsEnabled(true);
+        dMap.getUiSettings().setAllGesturesEnabled(true);
     }
 
     @Override

@@ -10,7 +10,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -22,146 +21,112 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Taboan_capstone">
-
+        <activity
+            android:name=".activity.customer.CustomerHistoryDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.driver.DriverDrawerActivity"
-
-            android:theme="@style/Theme.Taboan_capstone" >
-        </activity>
-
+            android:theme="@style/Theme.Taboan_capstone"></activity>
         <activity
             android:name=".activity.driver.DriverDeliveryActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
-
         <activity
             android:name=".activity.driver.DriverStatusActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.driver.DriverDashboardActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.driver.DriverHistoryActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.driver.DriverProfileActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.driver.DriverPortalActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerHistoryActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerMenuActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerOrdersActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerPortalActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerOrderDetailsActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerStoreDetailsActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.admin.AdminHistoryActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerAddProductActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.admin.AdminRegisterDriverActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.admin.AdminRegisterSellerActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerDashboardActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.admin.AdminDashboardActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerOrdersActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerProfileActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".DrawerBaseActivity"
-
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerHomeActivity"
-
             android:label="@string/home"
             android:theme="@style/Theme.Taboan_capstone" />
-
         <activity
             android:name=".activity.SplashScreenActivity"
-
-            android:theme="@style/Theme.Taboan_capstone"
-            android:exported="true">
-
+            android:exported="true"
+            android:theme="@style/Theme.Taboan_capstone">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".activity.customer.CustomerCartActivity"
             android:label="@string/cart"
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerRegisterActivity"
-
             android:label="@string/register"
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.customer.CustomerDashboardActivity"
-
             android:label="@string/dashboard"
             android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.LoginActivity"
-
             android:label="@string/login"
             android:theme="@style/Theme.Taboan_capstone" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCq5Yx1_vxl9tEPoRgeqsIi9urAeWieOpo" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>

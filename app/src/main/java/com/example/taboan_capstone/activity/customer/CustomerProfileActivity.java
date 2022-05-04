@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.example.taboan_capstone.DrawerBaseActivity;
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
+import com.example.taboan_capstone.activity.driver.fragment.ProfileFragment;
 import com.example.taboan_capstone.database.RoomDatabase;
 import com.example.taboan_capstone.databinding.ActivityCustomerHomeBinding;
 import com.example.taboan_capstone.databinding.ActivityCustomerProfileBinding;
@@ -24,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -56,13 +60,46 @@ public class CustomerProfileActivity extends DrawerBaseActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                saveData();
             }
         });
 
         Executors.newSingleThreadExecutor().execute(() -> {
             runOnUiThread(this::getInformation);
         });
+
+    }
+
+    private void saveData(){
+        String fName,lName,address,mobile,email,password;
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        fName = ti_FirstName.getEditText().getText().toString().trim();
+        lName = ti_LastName.getEditText().getText().toString().trim();
+        address = ti_Address.getEditText().getText().toString().trim();
+        mobile = ti_Mobile.getEditText().getText().toString().trim();
+        email = ti_Email.getEditText().getText().toString().trim();
+        password = ti_Password.getEditText().getText().toString().trim();
+
+        hashMap.put("email", "" + email);
+        hashMap.put("first_name", "" + fName);
+        hashMap.put("last_name", "" + lName);
+        hashMap.put("phoneNum", "" + mobile);
+        hashMap.put("address", "" + address);
+        hashMap.put("password", "" + password);
+
+        ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
+                .addOnSuccessListener(unused -> Toast.makeText(CustomerProfileActivity.this, "Profile Update successfully",Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(CustomerProfileActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getInformation();
+            }
+        },500);
 
     }
 

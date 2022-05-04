@@ -70,20 +70,36 @@ public class DriverPortalActivity extends AppCompatActivity {
     }
     private void getMarketOrder(){
 
-        if(Globals.currentDriver.getAvailStat().equals("Available") && Globals.currentDriver.getOnline().equals("true") ){
-            loadOrders();
+        DatabaseReference reference = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+        reference.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            String availStat = ""+ds.child("availStat").getValue();
+                            String isOnline = ""+ds.child("online").getValue();
 
-        }else if(Globals.currentDriver.getAvailStat().equals("Delivery") && Globals.currentDriver.getOnline().equals("true")){
-            driverHasOrder.setVisibility(View.GONE);
-            driverNoOrder.setVisibility(View.GONE);
-            driverDelivery.setVisibility(View.VISIBLE);
+                            if(availStat.equals("Available") && isOnline.equals("true") ){
+                                loadOrders();
 
-        } else if(Globals.currentDriver.getAvailStat().equals("Offline") && Globals.currentDriver.getOnline().equals("true")){
-            driverHasOrder.setVisibility(View.GONE);
-            driverNoOrder.setVisibility(View.VISIBLE);
-            driverDelivery.setVisibility(View.GONE);
+                            }else if(availStat.equals("Delivery") && isOnline.equals("true")){
+                                driverHasOrder.setVisibility(View.GONE);
+                                driverNoOrder.setVisibility(View.GONE);
+                                driverDelivery.setVisibility(View.VISIBLE);
 
-        }
+                            } else if(availStat.equals("Offline") && isOnline.equals("true")){
+                                driverHasOrder.setVisibility(View.GONE);
+                                driverNoOrder.setVisibility(View.VISIBLE);
+                                driverDelivery.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(DriverPortalActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void loadOrders(){
@@ -101,11 +117,14 @@ public class DriverPortalActivity extends AppCompatActivity {
                             String shopUID = modelShop.getUid();
 
                             sellerOrderModelArrayList = new ArrayList<>();
+
                             DatabaseReference refOrders = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
                             refOrders.child(shopUID).child("Orders").orderByChild("orderStatus").equalTo("In Progress")
                                     .addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                            sellerOrderModelArrayList.clear();
 
                                             for(DataSnapshot ds : snapshot.getChildren()){
 

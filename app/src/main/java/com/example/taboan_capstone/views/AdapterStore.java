@@ -29,11 +29,13 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
     private final Context context;
     public  ArrayList<SellerStoreModel> sellerStoreModelArrayList , filterList;
     private FilterCategory filterCategory;
+    private String marketName;
 
-    public AdapterStore(Context context, ArrayList<SellerStoreModel> sellerStoreModelArrayList) {
+    public AdapterStore(Context context, ArrayList<SellerStoreModel> sellerStoreModelArrayList,String marketName) {
         this.context = context;
         this.sellerStoreModelArrayList = sellerStoreModelArrayList;
         this.filterList = sellerStoreModelArrayList;
+        this.marketName = marketName;
     }
 
     @NonNull
@@ -64,6 +66,7 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
                 Intent intent = new Intent(context, CustomerStoreDetailsActivity.class);
                 intent.putExtra(Constants.Companion.getSELLER_GET_UID(), ""+uid);
                 intent.putExtra("uid",uid);
+                intent.putExtra("market",marketName);
                 context.startActivity(intent);
             }
         });
