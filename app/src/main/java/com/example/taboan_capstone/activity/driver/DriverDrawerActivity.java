@@ -171,7 +171,6 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
 
     private void showCustomDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(DriverDrawerActivity.this);
-        AlertDialog alert = builder.create();
         builder.setMessage("Do you want to logout?")
                 .setCancelable(false)
                 .setPositiveButton(Html.fromHtml("<font color='#000000'>Confirm</font>"), new DialogInterface.OnClickListener() {
@@ -182,11 +181,11 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
                 }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                alert.dismiss();
+
             }
         });
 
-
+        AlertDialog alert = builder.create();
         alert.show();
     }
 
@@ -194,6 +193,7 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online","false");
+        hashMap.put("availStat","Offline");
 
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(firebaseAuth.getUid()).updateChildren(hashMap)

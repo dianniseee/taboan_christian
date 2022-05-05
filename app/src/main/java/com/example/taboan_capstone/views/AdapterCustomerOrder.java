@@ -76,19 +76,17 @@ public class AdapterCustomerOrder extends  RecyclerView.Adapter<AdapterCustomerO
                 @Override
                 public void onClick(View view) {
 
-                    if(orderStats.equals("Delivery") || orderStats.equals("Waiting") || orderStats.equals("In Progress")){
-
-                        Intent intent = new Intent(context,CustomerOrderDetailsActivity.class);
-                        intent.putExtra("orderTo",orderTo);
-                        intent.putExtra("orderId",orderId);
-                        context.startActivity(intent);
-
-                    }else if(orderStats.equals("Completed")){
+                if(orderStats.equals("Completed")){
                         Intent intent = new Intent(context, CustomerHistoryDetailsActivity.class);
                         intent.putExtra("orderTo",orderTo);
                         intent.putExtra("orderId",orderId);
                         context.startActivity(intent);
-                    }
+                } else{
+                    Intent intent = new Intent(context,CustomerOrderDetailsActivity.class);
+                    intent.putExtra("orderTo",orderTo);
+                    intent.putExtra("orderId",orderId);
+                    context.startActivity(intent);
+                     }
                 }
             });
         }

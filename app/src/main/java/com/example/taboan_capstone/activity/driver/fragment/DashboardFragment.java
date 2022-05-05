@@ -19,10 +19,7 @@ import android.widget.Toast;
 
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
-import com.example.taboan_capstone.activity.driver.DriverDeliveryActivity;
-import com.example.taboan_capstone.activity.driver.DriverPortalActivity;
 import com.example.taboan_capstone.database.RoomDatabase;
-import com.example.taboan_capstone.databinding.ActivityDriverPortalBinding;
 import com.example.taboan_capstone.models.SellerOrderModel;
 import com.example.taboan_capstone.models.SellerStoreModel;
 import com.example.taboan_capstone.views.AdapterDriverOrder;
@@ -82,7 +79,7 @@ public class DashboardFragment extends Fragment {
         }
     }
 
-    private ActivityDriverPortalBinding binding;
+
     private FirebaseAuth firebaseAuth;
     private RoomDatabase roomDatabase;
     private TextView driverStats;
@@ -112,8 +109,7 @@ public class DashboardFragment extends Fragment {
         deliverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), DriverDeliveryActivity.class);
-                startActivity(intent);
+                //Deleted driver activities
             }
         });
 
@@ -155,6 +151,7 @@ public class DashboardFragment extends Fragment {
                                 driverDelivery.setVisibility(View.GONE);
 
                             }
+                            driverStats.setText(status);
                         }
                     }
 
@@ -193,7 +190,7 @@ public class DashboardFragment extends Fragment {
                                                 String orderStats = modelOrderShop.getOrderStatus();
                                                 String orderDAccepted = ""+ds.child("orderDAccepted").getValue();
 
-                                                if(orderStats.equals("In Progress") &&  orderDAccepted.equals("null")){
+                                                if(orderStats.equals("Ready") || orderStats.equals("In Progress") &&  orderDAccepted.equals("null")){
                                                     sellerOrderModelArrayList.add(modelOrderShop);
                                                 }
 

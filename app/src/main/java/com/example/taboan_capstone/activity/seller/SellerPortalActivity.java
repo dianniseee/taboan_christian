@@ -16,18 +16,11 @@ import android.widget.Toast;
 
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
-import com.example.taboan_capstone.activity.driver.DriverDeliveryActivity;
 import com.example.taboan_capstone.database.RoomDatabase;
-import com.example.taboan_capstone.models.DriverOrderModel;
-import com.example.taboan_capstone.models.DriverProductModel;
 import com.example.taboan_capstone.models.SellerOrderModel;
 import com.example.taboan_capstone.models.SellerProductModel;
-import com.example.taboan_capstone.views.AdapterDriverItems;
 import com.example.taboan_capstone.views.AdapterSellerItems;
 import com.example.taboan_capstone.views.AdapterSellerOrder;
-import com.example.taboan_capstone.views.AdapterSellerProduct;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -167,13 +160,14 @@ public class SellerPortalActivity extends AppCompatActivity {
                 String getOrderId = sellerOrderModelArrayList.get(position).getOrderID();
                 String getOrderBy = sellerOrderModelArrayList.get(position).getOrderBy();
                 String getOrderTo = sellerOrderModelArrayList.get(position).getOrderTo();
+                String getOrderTotal = sellerOrderModelArrayList.get(position).getOrderTotal();
 
-                showDialog(context,getOrderId,getOrderBy,getOrderTo);
+                showDialog(context,getOrderId,getOrderBy,getOrderTo,getOrderTotal);
             }
         };
     }
 
-    private void showDialog(Context context,String getOrderId, String orderBy,String getOrderTo){
+    private void showDialog(Context context,String getOrderId, String orderBy,String getOrderTo,String getOrderTotal){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.custom_dialog_seller_items,null);
 
@@ -187,7 +181,7 @@ public class SellerPortalActivity extends AppCompatActivity {
 
         orderId.setText(""+sellerOrderModel.getOrderID());
         orderName.setText(""+customerFullName);
-        totalValue.setText(""+sellerOrderModel.getOrderTotal());
+        totalValue.setText("₱ "+getOrderTotal);
 
         adapterSellerItems = new AdapterSellerItems(context,sellerProductModelArrayList);
         orderItems.setAdapter(adapterSellerItems);
@@ -211,8 +205,9 @@ public class SellerPortalActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(orderTo).child("Orders").child(orderId).updateChildren(hashMap);
 
-        DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-        custRef.child(orderBy).child("Orders").child(orderId).updateChildren(hashMap);
+     //   DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+   //     custRef.child(orderBy).child("Orders").child(orderId).updateChildren(hashMap);
+        ref.child(orderBy).child("Orders").child(orderId).updateChildren(hashMap);
 
     }
 

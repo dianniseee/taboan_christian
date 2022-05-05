@@ -69,14 +69,13 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
                     for(DataSnapshot ds : snapshot.getChildren()){
                         CustomerOrderDetailsModel modelOrderUser = ds.getValue(CustomerOrderDetailsModel.class);
 
-                        Log.d("DataOrderDetails",""+snapshot.getChildren());
                         customerOrderDetailsModelArrayList.add(modelOrderUser);
                     }
 
 
                     adapterCustomerOrder = new AdapterCustomerOrder(CustomerOrdersActivity.this,customerOrderDetailsModelArrayList,mAdapterClick,firebaseAuth.getUid());
                     customer_order_rv.setAdapter(adapterCustomerOrder);
-                   // customer_order_rv.scrollToPosition(0);
+                    customer_order_rv.scrollToPosition(0);
                     adapterCustomerOrder.notifyDataSetChanged();
                 }
             }

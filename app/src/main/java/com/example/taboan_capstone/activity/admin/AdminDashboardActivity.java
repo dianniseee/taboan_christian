@@ -3,6 +3,7 @@ package com.example.taboan_capstone.activity.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import com.example.taboan_capstone.R;
 import com.example.taboan_capstone.activity.LoginActivity;
 import com.example.taboan_capstone.activity.SplashScreenActivity;
 import com.example.taboan_capstone.activity.customer.CustomerHomeActivity;
+import com.example.taboan_capstone.database.RoomDatabase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +34,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private ImageView adminPortal,adminDriver,adminRegSeller;
     private FirebaseAuth firebaseAuth;
+    private RoomDatabase roomDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         adminRegSeller = findViewById(R.id.iv_admin_reg_seller);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        roomDatabase = Room.databaseBuilder(getApplicationContext(), RoomDatabase.class,"maindb").allowMainThreadQueries().build();
 
         createUI();
     }
@@ -128,6 +132,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         String accountType = "" +datasnapshot.child("accountType").getValue();
                         if(accountType.equals("Admin")){
                             firebaseAuth.signOut();
+                            roomDatabase.clearAllTables();
                             startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
                             finish();
                         }

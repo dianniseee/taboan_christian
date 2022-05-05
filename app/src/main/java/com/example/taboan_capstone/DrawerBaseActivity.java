@@ -133,8 +133,6 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         setUpStatus();
-                        finish();
-                        startActivity(new Intent(DrawerBaseActivity.this, LoginActivity.class));
                     }
                 }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
             @Override
@@ -178,6 +176,8 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
 
                             firebaseAuth.signOut();
                             roomDatabase.clearAllTables();
+                            finish();
+                            startActivity(new Intent(DrawerBaseActivity.this, LoginActivity.class));
                         }
                     }
                     @Override

@@ -23,28 +23,10 @@
         android:theme="@style/Theme.Taboan_capstone">
         <activity
             android:name=".activity.customer.CustomerHistoryDetailsActivity"
-            android:exported="false" />
+            android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.driver.DriverDrawerActivity"
             android:theme="@style/Theme.Taboan_capstone"></activity>
-        <activity
-            android:name=".activity.driver.DriverDeliveryActivity"
-            android:theme="@style/Theme.Taboan_capstone" />
-        <activity
-            android:name=".activity.driver.DriverStatusActivity"
-            android:theme="@style/Theme.Taboan_capstone" />
-        <activity
-            android:name=".activity.driver.DriverDashboardActivity"
-            android:theme="@style/Theme.Taboan_capstone" />
-        <activity
-            android:name=".activity.driver.DriverHistoryActivity"
-            android:theme="@style/Theme.Taboan_capstone" />
-        <activity
-            android:name=".activity.driver.DriverProfileActivity"
-            android:theme="@style/Theme.Taboan_capstone" />
-        <activity
-            android:name=".activity.driver.DriverPortalActivity"
-            android:theme="@style/Theme.Taboan_capstone" />
         <activity
             android:name=".activity.seller.SellerHistoryActivity"
             android:theme="@style/Theme.Taboan_capstone" />

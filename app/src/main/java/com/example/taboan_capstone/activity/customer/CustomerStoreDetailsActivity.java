@@ -1,4 +1,4 @@
-package com.example.taboan_capstone.activity.customer;
+ package com.example.taboan_capstone.activity.customer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -114,12 +114,22 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
             public void onAdapterClick(View v, int position) {
                 String getProdAvailable = productsList.get(position).getProd_avail();
                 String getProductCategory = productsList.get(position).getProd_category();
+                String getProdAvail = productsList.get(position).getProd_avail();
 
-                if(getProdAvailable.equals("Available") && getProductCategory.equals("Bundle") || getProductCategory.equals("Pieces") || getProductCategory.equals("Kilo")){
-                    showAddCartDialogBundle(position);
-                } else{
-                    //don't show add to cart when product is unavailable
+                if(getProdAvail.equals("Available")){
+
+                    if(getProdAvailable.equals("Available") && getProductCategory.equals("Bundle") || getProductCategory.equals("Pieces") || getProductCategory.equals("Kilo")){
+                        showAddCartDialogBundle(position);
+                    } else{
+                        //don't show add to cart when product is unavailable
+                    }
+
+                }else{
+                    Toast.makeText(CustomerStoreDetailsActivity.this, "Out of stock", Toast.LENGTH_SHORT).show();
                 }
+
+
+
             }
         };
     }

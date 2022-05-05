@@ -15,34 +15,28 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.Settings;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
-import com.example.taboan_capstone.activity.driver.DriverDeliveryActivity;
 import com.example.taboan_capstone.activity.driver.permission.FragmentPermissionHelper;
-import com.example.taboan_capstone.activity.driver.permission.FragmentPermissionInterface;
-import com.example.taboan_capstone.models.DriverModel;
 import com.example.taboan_capstone.models.DriverOrderModel;
 import com.example.taboan_capstone.models.DriverProductModel;
 import com.example.taboan_capstone.views.AdapterDriverItems;
@@ -68,7 +62,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -127,7 +120,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
     private double driverLat,driverLong,customerLat,customerLong;
 
-    private String customerFullName;
+    private String customerFullName,phoneNo;
 
     private AdapterDriverItems adapterDriverItems;
     DriverOrderModel driverOrderModel;
@@ -136,7 +129,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
     private static final String STATUS_DELIVERY = "Completed";
     private static final String STATUS_AVAIL = "Available";
 
-    private TextView geolocationValue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -145,7 +138,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
         dItems = view.findViewById(R.id.driver_delivery_orders);
         dRoute = view.findViewById(R.id.driver_delivery_route);
-        geolocationValue = view.findViewById(R.id.geolocationValue);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         driverOrderModel = new DriverOrderModel();
@@ -234,11 +227,41 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
         TextView orderId = view.findViewById(R.id.custom_dialog_driver_order_id);
         TextView orderName = view.findViewById(R.id.custom_dialog_driver_order_name);
         TextView totalValue = view.findViewById(R.id.custom_dialog_driver_total_value);
+        ImageView callValue = view.findViewById(R.id.custom_dialog_driver_call_value);
         Button delivered = view.findViewById(R.id.custom_dialog_driver_delivered);
         RecyclerView orderItems = view.findViewById(R.id.custom_dialog_driver_order_items);
 
+        DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+        custRef.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            String fName = ""+ds.child("first_name").getValue();
+                            String lName = ""+ds.child("last_name").getValue();
+                            String pNum = "" +ds.child("phoneNum").getValue();
+
+                            String custFullName = fName + " " + lName;
+                            orderName.setText(""+custFullName);
+
+                            callValue.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    callUser(pNum);
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         orderId.setText("#"+driverOrderModel.getOrderID());
-        orderName.setText(""+customerFullName);
         totalValue.setText("₱ "+driverOrderModel.getOrderTotal());
 
         adapterDriverItems = new AdapterDriverItems(context,driverProductModelArrayList);
@@ -252,6 +275,8 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                 dialog.dismiss();
             }
         });
+
+
 
         dialog.show();
     }
@@ -326,6 +351,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                                     Toast.makeText(DeliveryFragment.this.getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+
                         }
                     }
 
@@ -425,6 +451,12 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
         startActivity(intent);
     }
 
+    private void callUser(String number){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:0"+number));
+        startActivity(intent);
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
@@ -485,40 +517,30 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                             String orderID = ""+ds.child("orderID").getValue();
 
                             DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                            custRef.orderByChild("uid").equalTo(orderBy)
+                            custRef.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
                                     .addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             for(DataSnapshot ds : snapshot.getChildren()){
 
-                                                try {
+                                                customerLat = Double.parseDouble(""+ds.child("latitude").getValue());
+                                                customerLong = Double.parseDouble(""+ds.child("longitude").getValue());
 
-                                                    String fName = ""+ds.child("first_name").getValue();
-                                                    String lName = ""+ds.child("last_name").getValue();
+                                                LatLng custLoc = new LatLng(customerLat, customerLong);
 
-                                                    customerLat = Double.parseDouble(""+ds.child("latitude").getValue());
-                                                    customerLong = Double.parseDouble(""+ds.child("longitude").getValue());
+                                                dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.ic_person_pin)));
 
-                                                    customerFullName = fName+" "+lName;
-
-                                                    LatLng custLoc = new LatLng(customerLat, customerLong);
-
-                                                    dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.ic_person_pin)));
-                                                }
-                                                catch (Exception e){
-                                                    Toast.makeText(getContext(), "7"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
                                             }
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(getContext(), "8"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                                     //       Toast.makeText(getContext(), "8"+error.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
 
                             DatabaseReference storeRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                            storeRef.orderByChild("uid").equalTo(orderTo).addValueEventListener(new ValueEventListener() {
+                            storeRef.orderByChild("uid").equalTo(driverOrderModel.getOrderTo()).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     for(DataSnapshot ds : snapshot.getChildren()){
@@ -528,17 +550,17 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                                             String fName = ""+ds.child("first_name").getValue();
                                             String lName = ""+ds.child("last_name").getValue();
 
-                                            customerLat = Double.parseDouble(""+ds.child("latitude").getValue());
-                                            customerLong = Double.parseDouble(""+ds.child("longitude").getValue());
+                                            double storeLat = Double.parseDouble(""+ds.child("latitude").getValue());
+                                            double storeLong = Double.parseDouble(""+ds.child("longitude").getValue());
 
                                             customerFullName = fName+" "+lName;
 
-                                            LatLng custLoc = new LatLng(customerLat, customerLong);
+                                            LatLng custLoc = new LatLng(storeLat, storeLong);
 
                                             dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.tstorepin)));
                                         }
                                         catch (Exception e){
-                                            Toast.makeText(getContext(), "7"+e.getMessage(), Toast.LENGTH_SHORT).show();
+
                                         }
                                     }
                                 }
@@ -590,7 +612,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(firebaseAuth.getUid()).updateChildren(hashMap);
 
-        geolocationValue.setText(" " +latitude +"    " +longitude);
+
 
         if(dMarker != null){
             dMarker.remove();

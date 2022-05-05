@@ -5,12 +5,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -21,13 +17,10 @@ import com.cysion.wedialog.WeDialog;
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
 import com.example.taboan_capstone.activity.admin.AdminDashboardActivity;
-import com.example.taboan_capstone.activity.customer.CustomerDashboardActivity;
 import com.example.taboan_capstone.activity.customer.CustomerHomeActivity;
 import com.example.taboan_capstone.activity.customer.CustomerRegisterActivity;
-import com.example.taboan_capstone.activity.driver.DriverDashboardActivity;
 import com.example.taboan_capstone.activity.driver.DriverDrawerActivity;
 import com.example.taboan_capstone.activity.seller.SellerDashboardActivity;
-import com.example.taboan_capstone.database.RoomDatabase;
 import com.example.taboan_capstone.models.CurrentUserModel;
 import com.example.taboan_capstone.models.DriverModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,11 +40,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
 

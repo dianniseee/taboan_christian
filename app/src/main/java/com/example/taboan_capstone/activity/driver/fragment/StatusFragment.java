@@ -30,8 +30,6 @@ import android.widget.Toast;
 
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
-import com.example.taboan_capstone.activity.driver.DriverStatusActivity;
-import com.example.taboan_capstone.databinding.ActivityDriverStatusBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -99,7 +97,6 @@ public class StatusFragment extends Fragment {
         }
     }
 
-    private ActivityDriverStatusBinding binding;
     private FirebaseAuth firebaseAuth;
     private Button riderUnavailable;
     private TextView riderAvailable;

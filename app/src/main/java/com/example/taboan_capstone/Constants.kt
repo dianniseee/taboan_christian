@@ -15,15 +15,15 @@ interface Constants {
 
         val PROD_AVAILABILITY = arrayOf(
             "Available",
-            "Sold"
+            "Out of Stock"
         )
 
         val MARKET_CATEGORY = arrayOf(
             "All",
-            "Vegetables and Fruits",
+            "Vegetables",
+            "Fruits",
             "Seafoods",
             "Meat",
-            "Cooking essentials",
             "Others"
         )
 

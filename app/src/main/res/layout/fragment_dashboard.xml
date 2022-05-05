@@ -30,7 +30,7 @@
             android:layout_toEndOf="@+id/driver_portal_status"
             android:fontFamily="sans-serif-medium"
             android:text="Available"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/colorBlue"
             android:textSize="20sp" />
 
 
@@ -112,15 +112,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PROCEED"
-                android:fontFamily="sans-serif-condensed-medium"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
                 android:drawableEnd="@drawable/ic_arrow_right"
-                />
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Click Status"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
 
         </RelativeLayout>
 

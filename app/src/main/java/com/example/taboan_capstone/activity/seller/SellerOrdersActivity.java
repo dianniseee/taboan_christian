@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -90,28 +92,34 @@ public class SellerOrdersActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SellerOrdersActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.order_status_dialog,null);
+                builder.setView(view);
                 Button orderAccept = (Button) view.findViewById(R.id.order_status_dialog_accept);
                 Button orderCancel = (Button) view.findViewById(R.id.order_status_dialog_cancel);
 
 
-                orderAccept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getOrderDetails(orderID,orderTo,true);
-                    }
-                });
 
-                orderCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getOrderDetails(orderID,orderTo,false);
-                    }
-                });
-
-                builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    orderAccept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getOrderDetails(orderID,orderTo,true);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    orderCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getOrderDetails(orderID,orderTo,false);
+                            dialog.dismiss();
+                        }
+                    });
+
+                },500);
             }
         };
     }
@@ -148,8 +156,7 @@ public class SellerOrdersActivity extends AppCompatActivity {
                                     }
                                 });
 
-                                DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                                custRef.child(Objects.requireNonNull(orderBy)).child("Orders").child(orderID).updateChildren(hashMap)
+                                ref.child(Objects.requireNonNull(orderBy)).child("Orders").child(orderID).updateChildren(hashMap)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) { }
