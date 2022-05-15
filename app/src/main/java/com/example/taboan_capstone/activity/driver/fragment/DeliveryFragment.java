@@ -59,6 +59,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,6 +130,8 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
     private static final String STATUS_DELIVERY = "Completed";
     private static final String STATUS_AVAIL = "Available";
+
+    private String deliveryCity;
 
 
     @Override
@@ -225,14 +229,16 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
         AlertDialog dialog = builder.create();
 
         TextView orderId = view.findViewById(R.id.custom_dialog_driver_order_id);
+        TextView storeName = view.findViewById(R.id.custom_dialog_driver_store_name);
         TextView orderName = view.findViewById(R.id.custom_dialog_driver_order_name);
         TextView totalValue = view.findViewById(R.id.custom_dialog_driver_total_value);
+        TextView totalDevFee = view.findViewById(R.id.custom_dialog_driver_dev_fee_value);
         ImageView callValue = view.findViewById(R.id.custom_dialog_driver_call_value);
         Button delivered = view.findViewById(R.id.custom_dialog_driver_delivered);
         RecyclerView orderItems = view.findViewById(R.id.custom_dialog_driver_order_items);
 
-        DatabaseReference custRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-        custRef.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
+        DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+        ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -261,8 +267,29 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                     }
                 });
 
+        ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderTo())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            String getStoreName = ""+ds.child("store_name").getValue();
+
+                            storeName.setText(getStoreName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
         orderId.setText("#"+driverOrderModel.getOrderID());
-        totalValue.setText("₱ "+driverOrderModel.getOrderTotal());
+        totalDevFee.setText("₱ "+driverOrderModel.getOrderDevFee());
+        double devFee = Double.parseDouble(driverOrderModel.getOrderDevFee());
+        double ordertots = Double.parseDouble(driverOrderModel.getOrderTotal());
+        double setTotalValue = devFee + ordertots;
+        totalValue.setText("₱ "+setTotalValue);
 
         adapterDriverItems = new AdapterDriverItems(context,driverProductModelArrayList);
         orderItems.setAdapter(adapterDriverItems);
@@ -298,6 +325,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                             hashMapPayment.put("userID",""+driverOrderModel.getUserID());
                             hashMapPayment.put("orderBy",""+driverOrderModel.getOrderBy());
                             hashMapPayment.put("orderTo",""+driverOrderModel.getOrderTo());
+                            hashMapPayment.put("orderDevFee",""+driverOrderModel.getOrderDevFee());
                             hashMapPayment.put("orderMarket",""+driverOrderModel.getOrderMarket());
                             hashMapPayment.put("orderDateTime",""+driverOrderModel.getOrderDateTime());
                             hashMapPayment.put("orderDriverID",""+driverOrderModel.getOrderDriverID());
@@ -307,7 +335,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                             hashMapPayment.put("orderDelivered",""+timestamp);
 
                             DatabaseReference custStore = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                            custStore.child(driverOrderModel.getOrderBy()).child("Orders").child(timestamp).updateChildren(hashMapPayment)
+                            custStore.child(driverOrderModel.getOrderBy()).child("Orders").child(driverOrderModel.getOrderID()).updateChildren(hashMapPayment)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -489,7 +517,7 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
 
                                 LatLng driverLoc = new LatLng(driverLat,driverLong);
                                 dMarker = dMap.addMarker(new MarkerOptions().position(driverLoc).title("You").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(),R.drawable.triderpin)));
-                                dMap.moveCamera(CameraUpdateFactory.newLatLng(driverLoc));
+                                dMap.moveCamera(CameraUpdateFactory.newLatLngZoom(driverLoc,15));
                                 dMap.getUiSettings().setZoomControlsEnabled(true);
                                 dMap.getUiSettings().setAllGesturesEnabled(true);
 
@@ -523,12 +551,13 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             for(DataSnapshot ds : snapshot.getChildren()){
 
+                                                deliveryCity = ""+ds.child("userCity").getValue();
                                                 customerLat = Double.parseDouble(""+ds.child("latitude").getValue());
                                                 customerLong = Double.parseDouble(""+ds.child("longitude").getValue());
 
                                                 LatLng custLoc = new LatLng(customerLat, customerLong);
 
-                                                dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.ic_person_pin)));
+                                                dMap.addMarker(new MarkerOptions().position(custLoc).title("Customer").icon(bitmapDescriptorFromVector(DeliveryFragment.this.getContext(), R.drawable.ic_person_pin_red)));
 
                                             }
                                         }

@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -96,70 +99,62 @@ public class LoginActivity extends AppCompatActivity {
 
        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
            Toast.makeText(LoginActivity.this,"Invalid email format", Toast.LENGTH_SHORT).show();
-           return;
        }
-       if(TextUtils.isEmpty(email)){
+       else if(TextUtils.isEmpty(email)){
            Toast.makeText(LoginActivity.this,"Empty Email", Toast.LENGTH_SHORT).show();
-           return;
-       }
-       if(TextUtils.isEmpty(password)){
-           Toast.makeText(LoginActivity.this,"Empty Password", Toast.LENGTH_SHORT).show();
-           return;
+       }else{
+
+           if(TextUtils.isEmpty(password)){
+               Toast.makeText(LoginActivity.this,"Empty Password", Toast.LENGTH_SHORT).show();
+
+           }else{
+               firebaseAuth.signInWithEmailAndPassword(email,password)
+                       .addOnCompleteListener(this, task -> {
+                           if(!task.isSuccessful()){
+                               try{
+                                   throw task.getException();
+                               }catch (FirebaseAuthInvalidUserException e){
+                                   emailLogin.setError("Invalid email");
+                                   emailLogin.requestFocus();
+                                   WeDialog.INSTANCE.dismiss();
+                               }catch (FirebaseAuthInvalidCredentialsException e){
+                                   emailPassword.setError("Invalid password");
+                                   emailPassword.requestFocus();
+                                   WeDialog.INSTANCE.dismiss();
+                               }catch (FirebaseNetworkException e){
+                                   Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                   WeDialog.INSTANCE.dismiss();
+                               }catch (Exception e){
+                                   Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                   WeDialog.INSTANCE.dismiss();
+                               }
+                           }else{
+                               new Handler(Looper.getMainLooper()).postDelayed(() -> setUpStatus(),500);
+                           }
+                       }).addOnFailureListener(new OnFailureListener() {
+                   @Override
+                   public void onFailure(@NonNull Exception e) {
+                       Log.d("signInEmailAndPassword",e.getMessage());
+                       WeDialog.INSTANCE.dismiss();
+                   }
+               });
+           }
        }
 
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            try{
-                                throw task.getException();
-                            }catch (FirebaseAuthInvalidUserException e){
-                                emailLogin.setError("Invalid email");
-                                emailLogin.requestFocus();
-                                WeDialog.INSTANCE.dismiss();
-                            }catch (FirebaseAuthInvalidCredentialsException e){
-                                emailPassword.setError("Invalid password");
-                                emailPassword.requestFocus();
-                                WeDialog.INSTANCE.dismiss();
-                            }catch (FirebaseNetworkException e){
-                                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                WeDialog.INSTANCE.dismiss();
-                            }catch (Exception e){
-                                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                WeDialog.INSTANCE.dismiss();
-                            }
-                        }else{
-                            setUpStatus();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                WeDialog.INSTANCE.dismiss();
-            }
-        });
     }
 
     private void setUpStatus(){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("online","true");
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(Objects.requireNonNull(firebaseAuth.getUid())).updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        checkUserType();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(LoginActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
-                        WeDialog.INSTANCE.dismiss();
-                    }
+                .addOnSuccessListener(aVoid -> checkUserType())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(LoginActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                    WeDialog.INSTANCE.dismiss();
                 });
     }
     private void checkUserType(){

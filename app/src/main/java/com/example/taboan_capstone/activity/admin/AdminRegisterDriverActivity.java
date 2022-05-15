@@ -188,6 +188,7 @@ public class AdminRegisterDriverActivity extends AppCompatActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("uid", "" + firebaseAuth.getUid());
         hashMap.put("email", "" + email);
+        hashMap.put("avatar", "" + email);
         hashMap.put("first_name", "" + regFName);
         hashMap.put("last_name", "" + regLName);
         hashMap.put("phoneNum", "" + regMobile);
@@ -195,7 +196,8 @@ public class AdminRegisterDriverActivity extends AppCompatActivity {
         hashMap.put("password", "" + password);
         hashMap.put("latitude", "" );
         hashMap.put("longitude", "" );
-        hashMap.put("accountType", "Driver");
+        hashMap.put("accountType", "Rider");
+        hashMap.put("gender", "" + "null");
         hashMap.put("timestamp", "" + timestamp);
         hashMap.put("online", "false");
         hashMap.put("availStat", "Offline");

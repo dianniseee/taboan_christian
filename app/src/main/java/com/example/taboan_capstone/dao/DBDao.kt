@@ -37,6 +37,9 @@ interface DBDao {
     @Query("UPDATE customer_cart SET quantity = quantity + :quantity,subtotal = subtotal + :subtotal WHERE productID = :prodID")
     fun addCustomerCartExist(prodID: String, quantity: Double, subtotal: Double)
 
+    @Query("UPDATE customer_cart SET quantity = 0 + :quantity,subtotal = 0 + :subtotal WHERE productID = :prodID")
+    fun updateCustomerCartExist(prodID: String, quantity: Double, subtotal: Double)
+
     @Query("UPDATE customer_cart SET quantity = quantity - :quantity,subtotal = subtotal - :subtotal WHERE productID = :prodID ")
     fun subtractCustomerCartExist(prodID: String, quantity: Double, subtotal: Double)
 

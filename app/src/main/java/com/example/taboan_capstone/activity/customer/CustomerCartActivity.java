@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +52,7 @@ public class CustomerCartActivity extends AppCompatActivity {
     private RelativeLayout hasCartCover,noCartCover;
 
     private AdapterCustomerCart adapterCustomerCart;
-
+    private AdapterCustomerCart.OnAdapterClick mListener;
     private String getMarketName;
     private List<CustomerCartModel> currentCart;
 
@@ -72,6 +75,7 @@ public class CustomerCartActivity extends AppCompatActivity {
         noCartCover = findViewById(R.id.cart_user_cover_empty);
         deleteCart = findViewById(R.id.cart_user_delete);
 
+        currentCart = new ArrayList<>();
 
         if(getIntent() != null){
             getMarketName = getIntent().getStringExtra(Constants.Companion.getMARKET_NAME());
@@ -81,6 +85,7 @@ public class CustomerCartActivity extends AppCompatActivity {
         setupUser();
         setupCarts();
         checkCart();
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,42 +137,56 @@ public class CustomerCartActivity extends AppCompatActivity {
 
     private double getTotal = 0;
     private double getSubtotal = 0;
-    @SuppressLint("NotifyDataSetChanged")
+    private double devFee = 0;
+    private double total = 0;
     private void setupCarts(){
+        setOnAdapterClick();
 
-        currentCart = roomDatabase.dbDao().getAllCart();
-        adapterCustomerCart = new AdapterCustomerCart(CustomerCartActivity.this,currentCart);
+        currentCart.clear();
+        setTotal.setText("");
+        getTotal = 0;
+        getSubtotal = 0;
+        devFee = 0;
+        total = 0;
 
-        customerCartList.setAdapter(adapterCustomerCart);
-        adapterCustomerCart.notifyDataSetChanged();
+        if(roomDatabase.dbDao().getAllCart() != null){
+            currentCart = roomDatabase.dbDao().getAllCart();
+            adapterCustomerCart = new AdapterCustomerCart(CustomerCartActivity.this,currentCart,mListener);
+
+            customerCartList.setAdapter(adapterCustomerCart);
+            adapterCustomerCart.notifyDataSetChanged();
+        }
 
         for(int i = 0; i < currentCart.size(); i++){
             getSubtotal = currentCart.get(i).getSubtotal();
+            devFee = 39.00;
             getTotal += getSubtotal;
-            setTotal.setText("₱ " + getTotal);
+            total = getTotal + devFee;
+            setTotal.setText("₱ " + total);
         }
     }
 
     private final String timestamp = "" + System.currentTimeMillis();
     private void submitOrder(){
 
-        List<String> currentCart = roomDatabase.dbDao().getDistinctSeller();
+        List<String> distinctSeller = roomDatabase.dbDao().getDistinctSeller();
 
         for(int i = 0; i < currentCart.size(); i++){
 
-            String id = currentCart.get(i);
+            String id = distinctSeller.get(i);
 
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("orderID", "" + timestamp);
             hashMap.put("userID", "" + firebaseAuth.getUid());
             hashMap.put("orderBy", "" + firebaseAuth.getUid());
             hashMap.put("orderTo", "" + id);
+            hashMap.put("orderDevFee", "" + devFee);
             hashMap.put("orderMarket", "" + getMarketName);
             hashMap.put("orderDateTime", "" + timestamp);
             hashMap.put("orderDriverID", ""+ "null");
             hashMap.put("orderStatus", "" +"Waiting");
             hashMap.put("orderSubTotal","" +getTotal);
-            hashMap.put("orderTotal", "" + getTotal);
+            hashMap.put("orderTotal", "" + total);
             hashMap.put("orderDelivered",""+"null");
 
             DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users").child(id).child("Orders");
@@ -269,6 +288,110 @@ public class CustomerCartActivity extends AppCompatActivity {
             noCartCover.setVisibility(View.GONE);
             hasCartCover.setVisibility(View.VISIBLE);
         }
+    }
+
+    private double setQuantity;
+    private double setSubTotal;
+    private int bundlePieces;
+    private double getKilo;
+    private void setOnAdapterClick(){
+
+        mListener = new AdapterCustomerCart.OnAdapterClick() {
+            @Override
+            public void onAdapterClick(View v, int position) {
+
+                int id = currentCart.get(position).getId();
+                String prodId = currentCart.get(position).getProductID();
+                double qty = currentCart.get(position).getQuantity();
+                double subtotal = currentCart.get(position).getSubtotal();
+                double prodPrice = currentCart.get(position).getPrice_each();
+                String prodCategory = currentCart.get(position).getProduct_category();
+
+                setQuantity = qty;
+
+                PopupMenu popupMenu = new PopupMenu(CustomerCartActivity.this,v);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_cart_quantity, popupMenu.getMenu());
+                popupMenu.show();
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                    popupMenu.setForceShowIcon(true);
+                }
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()){
+                            case R.id.cart_subtract:
+
+                                if(prodCategory.equals("Pieces") || prodCategory.equals("Bundle")){
+                                    if(setQuantity > 0.25){
+                                        setQuantity = setQuantity - 1;
+                                        bundlePieces = (int) setQuantity;
+                                        setSubTotal = bundlePieces * prodPrice;
+
+                                        updateLocalCart(prodId,bundlePieces,setSubTotal);
+                                    }
+                                }else{
+
+                                    if(setQuantity > 1){
+                                        setQuantity = setQuantity - 0.25;
+                                        getKilo = setQuantity;
+                                        setSubTotal = getKilo * prodPrice;
+
+                                        updateLocalCart(prodId,bundlePieces,setSubTotal);
+                                    }
+                                }
+
+                                return true;
+
+                            case R.id.cart_add:
+
+                                if(prodCategory.equals("Pieces") || prodCategory.equals("Bundle")){
+                                    setQuantity = setQuantity + 1;
+
+                                    bundlePieces = (int) setQuantity;
+                                    setSubTotal = bundlePieces * prodPrice;
+
+                                    updateLocalCart(prodId,bundlePieces,setSubTotal);
+                                }else{
+                                    setQuantity = setQuantity + 0.25;
+                                    getKilo = setQuantity;
+                                    setSubTotal = getKilo * prodPrice;
+
+                                    updateLocalCart(prodId,bundlePieces,setSubTotal);
+                                }
+
+                                return true;
+                            case R.id.cart_delete:
+                                remoceCartRow(id);
+                                return true;
+
+                            default:
+                                return false;
+                        }
+                    }
+                });
+            }
+        };
+
+    }
+
+
+    private void updateLocalCart(String productId, double qty, double subtotal){
+
+        if(roomDatabase.dbDao().checkExistingCart(productId)){
+            roomDatabase.dbDao().updateCustomerCartExist(productId, qty, subtotal);
+            adapterCustomerCart.notifyDataSetChanged();
+        }
+        setupCarts();
+    }
+
+
+    private void remoceCartRow(int id){
+        roomDatabase.dbDao().deleteCartById(id);
+        adapterCustomerCart.notifyDataSetChanged();
+        checkCart();
     }
 
     @Override

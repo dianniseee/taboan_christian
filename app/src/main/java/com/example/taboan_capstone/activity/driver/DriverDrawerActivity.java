@@ -209,7 +209,7 @@ public class DriverDrawerActivity extends AppCompatActivity implements Navigatio
                 for(DataSnapshot ds : datasnapshot.getChildren()){
                     String accountType = "" +ds.child("accountType").getValue();
 
-                    if(accountType.equals("Driver")){
+                    if(accountType.equals("Rider")){
                         firebaseAuth.signOut();
                         roomDatabase.clearAllTables();
                         startActivity(new Intent(DriverDrawerActivity.this, LoginActivity.class));

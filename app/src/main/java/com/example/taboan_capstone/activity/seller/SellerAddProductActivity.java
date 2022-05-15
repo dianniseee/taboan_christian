@@ -47,12 +47,17 @@ public class SellerAddProductActivity extends AppCompatActivity {
     private static final int IMAGE_PICK_GALLERY_CODE = 400;
     private static final int IMAGE_PICK_CAMERA_CODE = 500;
 
-    private Uri image_uri;
+    private static final int IMAGE_FIRST_PIC_CODE = 100;
+    private static final int IMAGE_SECOND_PIC_CODE = 200;
+
+    private Uri image_uri1,image_uri2;
+
+    private boolean isFromFirstImg;
 
     private String[] cameraPermissions;
     private String[] storagePermission;
 
-    private ImageView back_add,productPhoto;
+    private ImageView back_add,productPhoto1,productPhoto2;
     private TextInputLayout productName,productDescription,priceCategory,productPrice,availability;
     private TextInputEditText pricateCategory_onTouch,prodAvailability_onTouch;
     private Button reg_product;
@@ -67,7 +72,8 @@ public class SellerAddProductActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         back_add = findViewById(R.id.back_add);
-        productPhoto = findViewById(R.id.iv_productPhoto);
+        productPhoto1 = findViewById(R.id.iv_productPhoto1);
+        productPhoto2 = findViewById(R.id.iv_productPhoto2);
         productName = findViewById(R.id.ti_productName);
         productDescription = findViewById(R.id.ti_productDescription);
         priceCategory = findViewById(R.id.ti_productCategory);
@@ -80,9 +86,18 @@ public class SellerAddProductActivity extends AppCompatActivity {
         cameraPermissions= new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        productPhoto.setOnClickListener(new View.OnClickListener() {
+        productPhoto1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isFromFirstImg = true;
+                showImagePickDialog();
+            }
+        });
+
+        productPhoto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFromFirstImg = false;
                 showImagePickDialog();
             }
         });
@@ -155,14 +170,27 @@ public class SellerAddProductActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(resultCode == RESULT_OK){
-            if(requestCode == IMAGE_PICK_GALLERY_CODE){
-                image_uri = data.getData();
-                productPhoto.setImageURI(image_uri);
+
+            if(isFromFirstImg){
+                if(requestCode == IMAGE_PICK_GALLERY_CODE){
+                    image_uri1 = data.getData();
+                    productPhoto1.setImageURI(image_uri1);
+                }
+                else if(requestCode == IMAGE_PICK_CAMERA_CODE){
+                    image_uri1 = data.getData();
+                    productPhoto1.setImageURI(image_uri1);
+                }
+            }else{
+                if(requestCode == IMAGE_PICK_GALLERY_CODE){
+                    image_uri2 = data.getData();
+                    productPhoto2.setImageURI(image_uri2);
+                }
+                else if(requestCode == IMAGE_PICK_CAMERA_CODE){
+                    image_uri2 = data.getData();
+                    productPhoto2.setImageURI(image_uri2);
+                }
             }
-            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
-                image_uri = data.getData();
-                productPhoto.setImageURI(image_uri);
-            }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -205,14 +233,23 @@ public class SellerAddProductActivity extends AppCompatActivity {
 
                         if (position == 0) {
                             if (checkCameraPermission()) {
-                                pickFromCamera();
+
+                                if(isFromFirstImg){
+                                    pickFromCamera();
+                                }else{
+                                    pickFromCameraSecond();
+                                }
                             }
                             else {
                                 requestCameraPermission();
                             }
                         } else {
                             if (checkStoragePermission()) {
-                                pickFromGallery();
+                                if(isFromFirstImg){
+                                    pickFromGallery();
+                                }else{
+                                    pickFromGallery();
+                                }
                             }
                             else {
                                 requestStoragePermission();
@@ -228,10 +265,22 @@ public class SellerAddProductActivity extends AppCompatActivity {
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_Image Title");
         contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Temp_Image Description");
 
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        image_uri1 = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri1);
+        startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
+    }
+
+    private void pickFromCameraSecond() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE, "Temp_Image Title");
+        contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Temp_Image Description");
+
+        image_uri2 = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri2);
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
     }
 
@@ -265,8 +314,6 @@ public class SellerAddProductActivity extends AppCompatActivity {
     private void requestCameraPermission() {
         ActivityCompat.requestPermissions(SellerAddProductActivity.this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
-
-
 
     String prodName,prodDescription,priCategory,prodPrice,avail;
     private void inputProduct(){
@@ -322,53 +369,56 @@ public class SellerAddProductActivity extends AppCompatActivity {
 
         final String timestamp = ""+System.currentTimeMillis();
 
-        if(image_uri != null){
+        if(image_uri1 != null && image_uri2 != null){
             String filePathName = "product_images/" + "" + timestamp;
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathName);
-            storageReference.putFile(image_uri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while(!uriTask.isSuccessful());
-                            Uri downloadImage = uriTask.getResult();
-                            if(uriTask.isSuccessful()){
+            storageReference.putFile(image_uri1)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while(!uriTask.isSuccessful());
+                        Uri downloadImage1 = uriTask.getResult();
+                        if(uriTask.isSuccessful()){
 
-                                HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("prod_id","" +timestamp);
-                                hashMap.put("prod_seller", ""+ firebaseAuth.getUid());
-                                hashMap.put("prod_name", ""+prodName);
-                                hashMap.put("prod_desc",""+prodDescription);
-                                hashMap.put("prod_image", ""+downloadImage);
-                                hashMap.put("prod_category",""+priCategory);
-                                hashMap.put("prod_price",""+prodPrice);
-                                hashMap.put("prod_avail",""+avail);
+                            String filePathName1 = "product_images/" + "" + timestamp;
+                            StorageReference storageReference1 = FirebaseStorage.getInstance().getReference(filePathName1);
+                            storageReference1.putFile(image_uri2).addOnSuccessListener(taskSnapshot1 -> {
+                                Task<Uri> uriTask1 = taskSnapshot1.getStorage().getDownloadUrl();
+                                while(!uriTask1.isSuccessful());
+                                Uri downloadImage2 = uriTask1.getResult();
 
-                                DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                                ref2.child(firebaseAuth.getUid()).child("Product").child(timestamp).setValue(hashMap)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Toast.makeText(SellerAddProductActivity.this, "ProductAdded", Toast.LENGTH_SHORT).show();
-                                                clearData();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(SellerAddProductActivity.this, "AddProduct_error"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
+                                if(uriTask1.isSuccessful()){
+
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("prod_id","" +timestamp);
+                                    hashMap.put("prod_seller", ""+ firebaseAuth.getUid());
+                                    hashMap.put("prod_name", ""+prodName);
+                                    hashMap.put("prod_desc",""+prodDescription);
+                                    hashMap.put("prod_image1", ""+downloadImage1);
+                                    hashMap.put("prod_image2", ""+downloadImage2);
+                                    hashMap.put("prod_category",""+priCategory);
+                                    hashMap.put("prod_price",""+prodPrice);
+                                    hashMap.put("prod_avail",""+avail);
+
+                                    DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                                    ref2.child(firebaseAuth.getUid()).child("Product").child(timestamp).setValue(hashMap)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(SellerAddProductActivity.this, "ProductAdded", Toast.LENGTH_SHORT).show();
+                                                    clearData();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(SellerAddProductActivity.this, "AddProduct_error"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            }).addOnFailureListener(e -> Toast.makeText(SellerAddProductActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            Toast.makeText(SellerAddProductActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    .addOnFailureListener(e -> Toast.makeText(SellerAddProductActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -378,7 +428,9 @@ public class SellerAddProductActivity extends AppCompatActivity {
         priceCategory.getEditText().setText("");
         productPrice.getEditText().setText("");
         availability.getEditText().setText("");
-        productPhoto.setImageResource(R.drawable.ic_cover_add);
-        image_uri = null;
+        productPhoto1.setImageResource(R.drawable.ic_cover_add);
+        productPhoto2.setImageResource(R.drawable.ic_cover_add);
+        image_uri1 = null;
+        image_uri2 = null;
     }
 }

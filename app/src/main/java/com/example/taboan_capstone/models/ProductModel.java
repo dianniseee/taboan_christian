@@ -2,19 +2,20 @@ package com.example.taboan_capstone.models;
 
 public class ProductModel {
 
-    private String prod_id,prod_seller,prod_name,prod_desc,prod_image,prod_category,prod_price,prod_avail;
+    private String prod_id,prod_seller,prod_name,prod_desc,prod_image1,prod_image2,prod_category,prod_price,prod_avail;
 
 
     public ProductModel(){
 
     }
 
-    public ProductModel(String prod_id, String prod_seller, String prod_name, String prod_desc, String prod_image, String prod_category, String prod_price, String prod_avail) {
+    public ProductModel(String prod_id, String prod_seller, String prod_name, String prod_desc, String prod_image1, String prod_image2, String prod_category, String prod_price, String prod_avail) {
         this.prod_id = prod_id;
         this.prod_seller = prod_seller;
         this.prod_name = prod_name;
         this.prod_desc = prod_desc;
-        this.prod_image = prod_image;
+        this.prod_image1 = prod_image1;
+        this.prod_image2 = prod_image2;
         this.prod_category = prod_category;
         this.prod_price = prod_price;
         this.prod_avail = prod_avail;
@@ -52,12 +53,20 @@ public class ProductModel {
         this.prod_desc = prod_desc;
     }
 
-    public String getProd_image() {
-        return prod_image;
+    public String getProd_image1() {
+        return prod_image1;
     }
 
-    public void setProd_image(String prod_image) {
-        this.prod_image = prod_image;
+    public void setProd_image1(String prod_image1) {
+        this.prod_image1 = prod_image1;
+    }
+
+    public String getProd_image2() {
+        return prod_image2;
+    }
+
+    public void setProd_image2(String prod_image2) {
+        this.prod_image2 = prod_image2;
     }
 
     public String getProd_category() {

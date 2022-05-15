@@ -15,6 +15,7 @@
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:stackFromEnd="true"
+        app:reverseLayout="true"
         tools:listitem="@layout/row_order_items" />
 
 </RelativeLayout>

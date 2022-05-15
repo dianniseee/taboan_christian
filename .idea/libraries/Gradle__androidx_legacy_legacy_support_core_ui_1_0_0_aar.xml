@@ -4,6 +4,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/10242230c41fba08a3c0aec6288d4e9c/transformed/legacy-support-core-ui-1.0.0/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/10242230c41fba08a3c0aec6288d4e9c/transformed/legacy-support-core-ui-1.0.0/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/10242230c41fba08a3c0aec6288d4e9c/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/10242230c41fba08a3c0aec6288d4e9c/transformed/legacy-support-core-ui-1.0.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

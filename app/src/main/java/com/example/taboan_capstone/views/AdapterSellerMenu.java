@@ -55,7 +55,7 @@ public class AdapterSellerMenu extends  RecyclerView.Adapter<AdapterSellerMenu.A
             holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
 
-        Glide.with(context).load(productModel.getProd_image()).into(holder.productImage);
+        Glide.with(context).load(productModel.getProd_image2()).into(holder.productImage);
 
     }
 

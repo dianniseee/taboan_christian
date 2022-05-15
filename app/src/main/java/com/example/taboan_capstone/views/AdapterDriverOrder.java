@@ -36,12 +36,14 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
     private ArrayList<SellerOrderModel> sellerOrderModelArrayList;
     private FirebaseAuth firebaseAuth;
     private String timestamp;
+    private AdapterDriverOrder.OnAdapterClick listener;
 
-    public AdapterDriverOrder(Context context, ArrayList<SellerOrderModel> sellerOrderModelArrayList, FirebaseAuth firebaseAuth,String timestamp) {
+    public AdapterDriverOrder(Context context, ArrayList<SellerOrderModel> sellerOrderModelArrayList, FirebaseAuth firebaseAuth, String timestamp, AdapterDriverOrder.OnAdapterClick listener) {
         this.context = context;
         this.sellerOrderModelArrayList = sellerOrderModelArrayList;
         this.firebaseAuth = firebaseAuth;
         this.timestamp = timestamp;
+        this.listener = listener;
     }
 
     @NonNull
@@ -65,12 +67,11 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
             }
         });
 
-        holder.cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+    }
+
+    private void showOrderItems(SellerOrderModel sellerOrderModel){
+
     }
 
     private void updaterOrder(SellerOrderModel sellerOrderModel){
@@ -92,7 +93,48 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        addOrderItems(sellerOrderModel);
+                     //   addOrderItems(sellerOrderModel);
+
+                        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                        ref.child(sellerOrderModel.getOrderTo()).child("Orders").child(sellerOrderModel.getOrderID()).child("Items")
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot ds: snapshot.getChildren()){
+                                            ItemsModel itemsModel = ds.getValue(ItemsModel.class);
+
+                                            HashMap<String, String> hashMap1 = new HashMap<>();
+                                            hashMap1.put("id", "" + itemsModel.getId());
+                                            hashMap1.put("productID", "" + itemsModel.getProductID());
+                                            hashMap1.put("productName", "" + itemsModel.getProductName());
+                                            hashMap1.put("product_Desc", "" + itemsModel.getProduct_Desc());
+                                            hashMap1.put("product_category", "" + itemsModel.getProduct_category());
+                                            hashMap1.put("price_each", "" + itemsModel.getPrice_each());
+                                            hashMap1.put("quantity", "" + itemsModel.getQuantity());
+                                            hashMap1.put("subtotal", "" + itemsModel.getSubtotal());
+
+                                            DatabaseReference itemRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                                            itemRef.child(firebaseAuth.getUid()).child("Orders").child(sellerOrderModel.getOrderID()).child("Items").child(itemsModel.getProductID()).setValue(hashMap1)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Toast.makeText(context, "Orders Items Receive", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(context, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                         updateOrderStatus(sellerOrderModel);
                         driverStatus();
                     }
@@ -107,46 +149,6 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
     private void addOrderItems(SellerOrderModel sellerOrderModel){
         String orderID = sellerOrderModel.getOrderID();
         String orderTo = sellerOrderModel.getOrderTo();
-
-        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-        ref.child(orderTo).child("Orders").child(orderID).child("Items")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot ds: snapshot.getChildren()){
-                            ItemsModel itemsModel = ds.getValue(ItemsModel.class);
-
-                            HashMap<String, String> hashMap1 = new HashMap<>();
-                            hashMap1.put("id", "" + itemsModel.getId());
-                            hashMap1.put("productID", "" + itemsModel.getProductID());
-                            hashMap1.put("productName", "" + itemsModel.getProductName());
-                            hashMap1.put("product_Desc", "" + itemsModel.getProduct_Desc());
-                            hashMap1.put("product_category", "" + itemsModel.getProduct_category());
-                            hashMap1.put("price_each", "" + itemsModel.getPrice_each());
-                            hashMap1.put("quantity", "" + itemsModel.getQuantity());
-                            hashMap1.put("subtotal", "" + itemsModel.getSubtotal());
-
-                            DatabaseReference itemRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                            itemRef.child(firebaseAuth.getUid()).child("Orders").child(orderID).child("Items").child(itemsModel.getProductID()).setValue(hashMap1)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toast.makeText(context, "Orders Items Receive", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(context, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void updateOrderStatus(SellerOrderModel sellerOrderModel){
@@ -192,18 +194,29 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
         return sellerOrderModelArrayList.size();
     }
 
-    class AdapterDriverOrderHolder extends RecyclerView.ViewHolder{
+    class AdapterDriverOrderHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
         private TextView storeName,orderId;
-        private Button cancel,accept;
+        private Button viewItems,accept;
         public AdapterDriverOrderHolder(@NonNull View itemView) {
             super(itemView);
 
             storeName = itemView.findViewById(R.id.row_driver_shop_name);
             orderId = itemView.findViewById(R.id.row_driver_shop_order_id);
-            cancel = itemView.findViewById(R.id.row_driver_shop_order_cancel);
+            viewItems = itemView.findViewById(R.id.row_driver_shop_order_view);
             accept = itemView.findViewById(R.id.row_driver_shop_order_accept);
 
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.onAdapterClick(v,getBindingAdapterPosition());
         }
     }
+
+    public interface OnAdapterClick{
+        void onAdapterClick(View v,int position);
+    }
+
 }

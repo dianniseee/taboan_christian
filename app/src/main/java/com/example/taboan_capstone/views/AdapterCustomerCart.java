@@ -20,10 +20,12 @@ public class AdapterCustomerCart extends RecyclerView.Adapter<AdapterCustomerCar
 
     private final Context context;
     private final List<CustomerCartModel> customerCartModelArrayList;
+    private OnAdapterClick listener;
 
-    public AdapterCustomerCart(Context context, List<CustomerCartModel> customerCartModelArrayList) {
+    public AdapterCustomerCart(Context context, List<CustomerCartModel> customerCartModelArrayList, OnAdapterClick listener) {
         this.context = context;
         this.customerCartModelArrayList = customerCartModelArrayList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -59,7 +61,7 @@ public class AdapterCustomerCart extends RecyclerView.Adapter<AdapterCustomerCar
         return customerCartModelArrayList.size();
     }
 
-    class  CustomerCartHolder extends RecyclerView.ViewHolder{
+    class  CustomerCartHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final TextView quantity;
         private final TextView name;
@@ -71,6 +73,16 @@ public class AdapterCustomerCart extends RecyclerView.Adapter<AdapterCustomerCar
             quantity = itemView.findViewById(R.id.cart_item_quantity);
             name = itemView.findViewById(R.id.cart_item_name);
             subtotal = itemView.findViewById(R.id.cart_item_subtotal);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            listener.onAdapterClick(v,getBindingAdapterPosition());
+        }
+    }
+
+    public interface  OnAdapterClick{
+        void onAdapterClick(View v,int position);
     }
 }

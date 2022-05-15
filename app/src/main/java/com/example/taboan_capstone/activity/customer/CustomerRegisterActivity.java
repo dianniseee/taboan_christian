@@ -252,6 +252,8 @@ public class CustomerRegisterActivity extends AppCompatActivity implements Locat
         hashMap.put("phoneNum", "" + regMobile);
         hashMap.put("address", "" + regAddress);
         hashMap.put("gps_address", "" + regGPSAddress);
+        hashMap.put("avatar", "" + "null");
+        hashMap.put("gender", "" + "null");
         hashMap.put("password", "" + password);
         hashMap.put("latitude", "" + latitude);
         hashMap.put("longitude", "" + longitude);

@@ -7,6 +7,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/858f9c87421b7d09ea7e9364c8a95d71/transformed/exifinterface-1.2.0/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/858f9c87421b7d09ea7e9364c8a95d71/transformed/exifinterface-1.2.0/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/858f9c87421b7d09ea7e9364c8a95d71/transformed/exifinterface-1.2.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/858f9c87421b7d09ea7e9364c8a95d71/transformed/exifinterface-1.2.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

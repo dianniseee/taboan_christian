@@ -140,6 +140,8 @@
             android:background="@color/colorGreen">
 
             <TextView
+                android:id="@+id/cart_user_cart_total_text"
+                android:layout_below="@+id/cart_user_cart_dev_fee_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -150,7 +152,19 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/cart_user_cart_dev_fee_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Delivery Fee:"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/cart_user_cart_total"
+                android:layout_below="@+id/cart_user_cart_dev_fee_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -164,16 +178,33 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/cart_user_cart_dev_fee_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="₱ 39.00"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <Button
                 android:id="@+id/cart_user_place_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cart_user_cart_total"
+                android:layout_below="@+id/cart_user_cart_total_text"
                 android:layout_centerInParent="true"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-medium"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/shape_rect4"
+                android:fontFamily="sans-serif-medium"
                 android:text="Place order"
                 android:textColor="@color/black"
                 app:backgroundTint="@color/white" />

@@ -147,7 +147,8 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        ImageView addCover = view.findViewById(R.id.add_cart_cover);
+        ImageView addCover1 = view.findViewById(R.id.add_cart_cover1);
+        ImageView addCover2 = view.findViewById(R.id.add_cart_cover2);
         ImageView subQuantity = view.findViewById(R.id.add_cart_subtract);
         ImageView addQuantity = view.findViewById(R.id.add_cart_add);
         Button addToCart = view.findViewById(R.id.add_cart_push);
@@ -162,7 +163,8 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         String getSellerID = productsList.get(position).getProd_seller();
         String getProdName = productsList.get(position).getProd_name();
         String getProdDescription = productsList.get(position).getProd_desc();
-        String getProdCover = productsList.get(position).getProd_image();
+        String getProdCover1 = productsList.get(position).getProd_image1();
+        String getProdCover2 = productsList.get(position).getProd_image2();
         String getProdCategory = productsList.get(position).getProd_category();
         String getProdAvailable = productsList.get(position).getProd_avail();
         String getProdPrice = productsList.get(position).getProd_price();
@@ -184,7 +186,8 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
             prodDescription.setText(getProdDescription);
             prodPrice.setText("₱ "+getProdPrice);
             addSubtotal.setText("₱ " + setSubTotal);
-            Glide.with(this).load(getProdCover).into(addCover);
+            Glide.with(this).load(getProdCover1).into(addCover1);
+            Glide.with(this).load(getProdCover2).into(addCover2);
 
             addQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -259,7 +262,8 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
             prodDescription.setText(getProdDescription);
             prodPrice.setText("₱ "+getProdPrice);
             addSubtotal.setText("₱ " + setSubTotal);
-            Glide.with(this).load(getProdCover).into(addCover);
+            Glide.with(this).load(getProdCover1).into(addCover1);
+            Glide.with(this).load(getProdCover2).into(addCover2);
 
             addQuantity.setOnClickListener(new View.OnClickListener() {
                 @Override

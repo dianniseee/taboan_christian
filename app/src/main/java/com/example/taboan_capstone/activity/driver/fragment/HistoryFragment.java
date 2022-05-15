@@ -105,7 +105,7 @@ public class HistoryFragment extends Fragment {
                             driverOrderModelArrayList.add(modelProduct);
 
                         }
-                        adapterDriverHistory = new AdapterDriverHistory(HistoryFragment.this.getContext(), driverOrderModelArrayList);
+                        adapterDriverHistory = new AdapterDriverHistory(HistoryFragment.this.getContext(), driverOrderModelArrayList,firebaseAuth);
                         driverHistoryList.setAdapter(adapterDriverHistory);
                     }
 

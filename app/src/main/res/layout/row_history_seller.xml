@@ -56,7 +56,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/row_history_seller_order_by_text"
                 android:fontFamily="sans-serif-medium"
-                android:text="#12312312"
                 android:textColor="@color/colorGreen" />
 
 

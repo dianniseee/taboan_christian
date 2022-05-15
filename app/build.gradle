@@ -15,8 +15,8 @@ android {
         minSdkVersion 20
         targetSdkVersion 31
 
-        versionCode 3
-        versionName "3.0"
+        versionCode 4
+        versionName "4.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true

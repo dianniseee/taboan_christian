@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class CustomerOrdersActivity extends DrawerBaseActivity {
@@ -72,7 +73,7 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
                         customerOrderDetailsModelArrayList.add(modelOrderUser);
                     }
 
-
+                    Collections.sort(customerOrderDetailsModelArrayList,CustomerOrderDetailsModel.CustomerOrderDetailsModelDate);
                     adapterCustomerOrder = new AdapterCustomerOrder(CustomerOrdersActivity.this,customerOrderDetailsModelArrayList,mAdapterClick,firebaseAuth.getUid());
                     customer_order_rv.setAdapter(adapterCustomerOrder);
                     customer_order_rv.scrollToPosition(0);

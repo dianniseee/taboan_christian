@@ -8,15 +8,19 @@ import androidx.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cysion.wedialog.WeDialog;
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
 import com.example.taboan_capstone.activity.LoginActivity;
+import com.example.taboan_capstone.activity.admin.AdminDashboardActivity;
 import com.example.taboan_capstone.activity.driver.DriverDrawerActivity;
 import com.example.taboan_capstone.database.RoomDatabase;
 import com.example.taboan_capstone.models.CurrentUserModel;
@@ -36,6 +40,7 @@ public class SellerDashboardActivity extends AppCompatActivity {
     private ImageView sellerPortal,sellerAddProduct,sellerMenu,sellerHistory;
     private RoomDatabase roomDatabase;
     private FirebaseAuth firebaseAuth;
+    private TextView storeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class SellerDashboardActivity extends AppCompatActivity {
         sellerAddProduct = findViewById(R.id.iv_seller_add_product);
         sellerMenu = findViewById(R.id.iv_seller_menu);
         sellerHistory = findViewById(R.id.iv_seller_history);
+        storeName = findViewById(R.id.seller_store_name);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -88,6 +94,27 @@ public class SellerDashboardActivity extends AppCompatActivity {
          }else{
             insertToDao();
         }
+        setUpInfo();
+    }
+
+    private void setUpInfo(){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+        ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            String getStoreName = ""+ds.child("store_name").getValue();
+                            storeName.setText(getStoreName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     @Override
@@ -158,7 +185,11 @@ public class SellerDashboardActivity extends AppCompatActivity {
                     if(accountType.equals("Seller")){
                         firebaseAuth.signOut();
                         roomDatabase.clearAllTables();
-                        startActivity(new Intent(SellerDashboardActivity.this, LoginActivity.class));
+
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            startActivity(new Intent(SellerDashboardActivity.this, LoginActivity.class));
+                            finish();
+                        },300);
                     }
                 }
             }

@@ -2,16 +2,15 @@ package com.example.taboan_capstone.models;
 
 public class SellerStoreModel {
 
-    private String accountType,address,cover_photo,email,first_name,last_name,
+    private String accountType,gender,address,cover_photo,email,first_name,last_name,
             online,phoneNum,store_email,store_location,store_market,store_category,
             store_name,store_password,timestamp,uid;
 
-    public SellerStoreModel(){
+    public SellerStoreModel(){}
 
-    }
-
-    public SellerStoreModel(String accountType, String address, String cover_photo, String email, String first_name, String last_name, String online, String phoneNum, String store_email, String store_location, String store_market, String store_category, String store_name, String store_password, String timestamp, String uid) {
+    public SellerStoreModel(String accountType, String gender, String address, String cover_photo, String email, String first_name, String last_name, String online, String phoneNum, String store_email, String store_location, String store_market, String store_category, String store_name, String store_password, String timestamp, String uid) {
         this.accountType = accountType;
+        this.gender = gender;
         this.address = address;
         this.cover_photo = cover_photo;
         this.email = email;
@@ -35,6 +34,14 @@ public class SellerStoreModel {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getAddress() {

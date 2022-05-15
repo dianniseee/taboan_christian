@@ -175,13 +175,11 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         showCustomDialog();
     }
 
     private void showCustomDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(CustomerHomeActivity.this);
-        AlertDialog alert = builder.create();
 
         builder.setMessage("Do you want to logout?")
                 .setCancelable(false)
@@ -194,9 +192,11 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
                 }).setNegativeButton(Html.fromHtml("<font color='#000000'>Cancel</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                alert.dismiss();
+                //nothing to do here : clicking by it will dimis the dialog
+                //put builder below to show the dialog
             }
         });
+        AlertDialog alert = builder.create();
         alert.show();
     }
 

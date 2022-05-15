@@ -4,6 +4,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/720f2811326bcc8b67bb4d9683026ece/transformed/multidex-2.0.0/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/720f2811326bcc8b67bb4d9683026ece/transformed/multidex-2.0.0/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/720f2811326bcc8b67bb4d9683026ece/transformed/multidex-2.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/720f2811326bcc8b67bb4d9683026ece/transformed/multidex-2.0.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

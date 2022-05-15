@@ -466,6 +466,7 @@ public class AdminRegisterSellerActivity extends AppCompatActivity {
                                 hashMap.put("uid", "" + firebaseAuth.getUid());
                                 hashMap.put("cover_photo", "" + downloadImageUri);
                                 hashMap.put("email", "" + email);
+                                hashMap.put("gender", "" + "null");
                                 hashMap.put("first_name", "" + regSelFName);
                                 hashMap.put("last_name", "" + regSelLName);
                                 hashMap.put("address", "" + regSelAddress);

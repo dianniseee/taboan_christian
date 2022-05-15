@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class AdapterSellerProduct extends  RecyclerView.Adapter<AdapterSellerPro
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
             ProductModel productModel = productModelArrayList.get(position);
 
-            String cover = productModel.getProd_image();
+            String cover = productModel.getProd_image2();
             String price = productModel.getProd_price();
             String name = productModel.getProd_name();
             String available = productModel.getProd_avail();
@@ -56,8 +57,9 @@ public class AdapterSellerProduct extends  RecyclerView.Adapter<AdapterSellerPro
                 holder.productCover.setVisibility(View.VISIBLE);
                 holder.prodAvailable.setVisibility(View.GONE);
             }else{
-                holder.productCover.setVisibility(View.GONE);
-                holder.prodAvailable.setVisibility(View.VISIBLE);
+//                holder.productCover.setVisibility(View.GONE);
+//                holder.prodAvailable.setVisibility(View.VISIBLE);
+                holder.productBase.setVisibility(View.GONE);
             }
 
     }
@@ -71,7 +73,7 @@ public class AdapterSellerProduct extends  RecyclerView.Adapter<AdapterSellerPro
 
         private ImageView productCover;
         private TextView productPrice,productName,prodAvailable;
-
+        private LinearLayout productBase;
         public ProductHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -79,6 +81,7 @@ public class AdapterSellerProduct extends  RecyclerView.Adapter<AdapterSellerPro
             productPrice = itemView.findViewById(R.id.seller_product_price);
             productName = itemView.findViewById(R.id.seller_product_name);
             prodAvailable = itemView.findViewById(R.id.selleR_product_available);
+            productBase = itemView.findViewById(R.id.seller_product_base);
             itemView.setOnClickListener(this);
         }
 

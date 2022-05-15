@@ -4,6 +4,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/f937c83076ac8997007ec70659a15631/transformed/jetified-play-services-auth-api-phone-17.4.0/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/f937c83076ac8997007ec70659a15631/transformed/jetified-play-services-auth-api-phone-17.4.0/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/f937c83076ac8997007ec70659a15631/transformed/jetified-play-services-auth-api-phone-17.4.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f937c83076ac8997007ec70659a15631/transformed/jetified-play-services-auth-api-phone-17.4.0/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.google.android.gms/play-services-auth-api-phone/17.4.0/b6b7f35110232b40de7a1374921fcff1eaa864ba/play-services-auth-api-phone-17.4.0-javadoc.jar!/" />

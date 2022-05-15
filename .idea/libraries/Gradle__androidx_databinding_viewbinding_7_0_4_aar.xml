@@ -4,6 +4,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/4cac8448d3b035e4c6db41bbc65e7136/transformed/jetified-viewbinding-7.0.4/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/4cac8448d3b035e4c6db41bbc65e7136/transformed/jetified-viewbinding-7.0.4/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/4cac8448d3b035e4c6db41bbc65e7136/transformed/jetified-viewbinding-7.0.4/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4cac8448d3b035e4c6db41bbc65e7136/transformed/jetified-viewbinding-7.0.4/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

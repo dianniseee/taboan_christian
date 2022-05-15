@@ -2,17 +2,18 @@ package com.example.taboan_capstone.models;
 
 public class SellerOrderModel {
 
-    private String orderID , userID, orderBy, orderTo,  orderMarket,
+    private String orderID , userID, orderBy, orderTo,  orderMarket,orderDevFee,
             orderDateTime, orderDriverID, orderStatus, orderSubTotal, orderTotal;
 
     public SellerOrderModel(){ }
 
-    public SellerOrderModel(String orderID, String userID, String orderBy, String orderTo, String orderMarket, String orderDateTime, String orderDriverID, String orderStatus, String orderSubTotal, String orderTotal) {
+    public SellerOrderModel(String orderID, String userID, String orderBy, String orderTo, String orderMarket, String orderDevFee, String orderDateTime, String orderDriverID, String orderStatus, String orderSubTotal, String orderTotal) {
         this.orderID = orderID;
         this.userID = userID;
         this.orderBy = orderBy;
         this.orderTo = orderTo;
         this.orderMarket = orderMarket;
+        this.orderDevFee = orderDevFee;
         this.orderDateTime = orderDateTime;
         this.orderDriverID = orderDriverID;
         this.orderStatus = orderStatus;
@@ -58,6 +59,14 @@ public class SellerOrderModel {
 
     public void setOrderMarket(String orderMarket) {
         this.orderMarket = orderMarket;
+    }
+
+    public String getOrderDevFee() {
+        return orderDevFee;
+    }
+
+    public void setOrderDevFee(String orderDevFee) {
+        this.orderDevFee = orderDevFee;
     }
 
     public String getOrderDateTime() {

@@ -4,6 +4,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/9a1e4cbd1b9aefcf1f5d9615d1104c98/transformed/core-runtime-2.1.0/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/9a1e4cbd1b9aefcf1f5d9615d1104c98/transformed/core-runtime-2.1.0/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/9a1e4cbd1b9aefcf1f5d9615d1104c98/transformed/core-runtime-2.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9a1e4cbd1b9aefcf1f5d9615d1104c98/transformed/core-runtime-2.1.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

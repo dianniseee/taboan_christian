@@ -2,15 +2,16 @@ package com.example.taboan_capstone.models;
 
 public class DriverModel {
 
-    private String uid,email,first_name,last_name,phoneNum,address,password,latitude,longitude,accountType,timestamp,online,availStat;
+    private String uid,email,avatar,first_name,last_name,phoneNum,address,password,latitude,longitude,accountType,timestamp,online,availStat;
 
     public  DriverModel(){
 
     }
 
-    public DriverModel(String uid, String email, String first_name, String last_name, String phoneNum, String address, String password, String latitude, String longitude, String accountType, String timestamp, String online, String availStat) {
+    public DriverModel(String uid, String email, String avatar, String first_name, String last_name, String phoneNum, String address, String password, String latitude, String longitude, String accountType, String timestamp, String online, String availStat) {
         this.uid = uid;
         this.email = email;
+        this.avatar = avatar;
         this.first_name = first_name;
         this.last_name = last_name;
         this.phoneNum = phoneNum;
@@ -38,6 +39,14 @@ public class DriverModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getFirst_name() {

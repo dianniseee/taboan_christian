@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+
+    <item android:id="@+id/cart_subtract"
+        android:icon="@drawable/ic_subract"
+        app:icon="@color/colorGreen"
+        app:showAsAction="always"
+        android:title="" />
+
+    <item android:id="@+id/cart_add"
+        android:icon="@drawable/ic_add"
+        app:icon="@color/colorGreen"
+        app:showAsAction="always"
+        android:title="" />
+
+    <item android:id="@+id/cart_delete"
+        android:icon="@drawable/ic_delete"
+        app:icon="@color/colorGreen"
+        app:showAsAction="always"
+        android:title="" />
+
+</menu>

@@ -14,13 +14,28 @@
         android:orientation="vertical"
         >
 
-        <ImageView
-            android:id="@+id/add_cart_cover"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            android:scaleType="fitXY"
-            />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          >
+
+          <ImageView
+              android:id="@+id/add_cart_cover1"
+              android:layout_width="match_parent"
+              android:layout_height="150dp"
+              android:scaleType="fitXY"
+              android:layout_weight="1"
+              />
+
+          <ImageView
+              android:id="@+id/add_cart_cover2"
+              android:layout_width="match_parent"
+              android:layout_height="150dp"
+              android:layout_weight="1"
+              android:scaleType="fitXY"
+              />
+
+      </LinearLayout>
 
         <TextView
             android:id="@+id/add_cart_name"
@@ -103,7 +118,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_circle1"
-                android:src="@drawable/ic_subtract" />
+                android:src="@drawable/ic_subtract_cart" />
 
             <TextView
                 android:id="@+id/add_cart_quantity"
@@ -124,7 +139,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/shape_circle1"
-                android:src="@drawable/ic_add" />
+                android:src="@drawable/ic_add_cart" />
 
         </LinearLayout>
 

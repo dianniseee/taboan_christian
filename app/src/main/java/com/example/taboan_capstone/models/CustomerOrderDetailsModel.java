@@ -1,5 +1,7 @@
 package com.example.taboan_capstone.models;
 
+import java.util.Comparator;
+
 public class CustomerOrderDetailsModel {
 
     private String orderID , userID, orderBy, orderTo,  orderMarket,
@@ -22,6 +24,15 @@ public class CustomerOrderDetailsModel {
         this.orderTotal = orderTotal;
         this.orderDelivered = orderDelivered;
     }
+
+    public static Comparator<CustomerOrderDetailsModel> CustomerOrderDetailsModelDate = new Comparator<CustomerOrderDetailsModel>() {
+        @Override
+        public int compare(CustomerOrderDetailsModel o1, CustomerOrderDetailsModel o2) {
+            return o1.getOrderDateTime().compareTo(o2.getOrderDateTime());
+        }
+    };
+
+
 
     public String getOrderID() {
         return orderID;

@@ -7,6 +7,7 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/37f6cbfccd94b5ae348c911bf02746ff/transformed/jetified-volley-1.2.1/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/37f6cbfccd94b5ae348c911bf02746ff/transformed/jetified-volley-1.2.1/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/37f6cbfccd94b5ae348c911bf02746ff/transformed/jetified-volley-1.2.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/37f6cbfccd94b5ae348c911bf02746ff/transformed/jetified-volley-1.2.1/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.android.volley/volley/1.2.1/9eff5929c655bfdd9fcc88128f1a12ceb0875147/volley-1.2.1-javadoc.jar!/" />

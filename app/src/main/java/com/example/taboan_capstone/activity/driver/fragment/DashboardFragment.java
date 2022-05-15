@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,6 +14,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +23,11 @@ import android.widget.Toast;
 import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
 import com.example.taboan_capstone.database.RoomDatabase;
+import com.example.taboan_capstone.models.DriverOrderModel;
+import com.example.taboan_capstone.models.DriverProductModel;
 import com.example.taboan_capstone.models.SellerOrderModel;
 import com.example.taboan_capstone.models.SellerStoreModel;
+import com.example.taboan_capstone.views.AdapterDriverItems;
 import com.example.taboan_capstone.views.AdapterDriverOrder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,7 +94,11 @@ public class DashboardFragment extends Fragment {
     private RecyclerView orderList;
     private RelativeLayout driverHasOrder, driverNoOrder,driverDelivery;
     private AdapterDriverOrder adapterDriverOrder;
+    private AdapterDriverOrder.OnAdapterClick onAdapterClick;
     private TextView deliverBtn;
+    private AdapterDriverItems adapterDriverItems;
+    DriverOrderModel driverOrderModel;
+    private  ArrayList<DriverProductModel> driverProductModelArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -163,7 +174,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void loadOrders(){
-
+        setOnAdapterClick();
         DatabaseReference reference = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         reference.orderByChild("accountType").equalTo("Seller")
                 .addValueEventListener(new ValueEventListener() {
@@ -194,7 +205,7 @@ public class DashboardFragment extends Fragment {
                                                     sellerOrderModelArrayList.add(modelOrderShop);
                                                 }
 
-                                                adapterDriverOrder = new AdapterDriverOrder(getContext(), sellerOrderModelArrayList,firebaseAuth,timestamp);
+                                                adapterDriverOrder = new AdapterDriverOrder(getContext(), sellerOrderModelArrayList,firebaseAuth,timestamp,onAdapterClick);
                                                 orderList.setAdapter(adapterDriverOrder);
 
                                                 if(adapterDriverOrder.getItemCount() == 0){
@@ -215,7 +226,7 @@ public class DashboardFragment extends Fragment {
                                     });
                         }
                         String timestamp = "" + System.currentTimeMillis();
-                        adapterDriverOrder = new AdapterDriverOrder(getContext(), sellerOrderModelArrayList,firebaseAuth,timestamp);
+                        adapterDriverOrder = new AdapterDriverOrder(getContext(), sellerOrderModelArrayList,firebaseAuth,timestamp,onAdapterClick);
                         orderList.setAdapter(adapterDriverOrder);
                     }
                     @Override
@@ -223,6 +234,124 @@ public class DashboardFragment extends Fragment {
                         Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void setOnAdapterClick(){
+        onAdapterClick = ((v, position) -> {
+
+            String getOrderTO = sellerOrderModelArrayList.get(position).getOrderTo();
+            String getOrderId = sellerOrderModelArrayList.get(position).getOrderID();
+
+            driverProductModelArrayList = new ArrayList<>();
+
+            DatabaseReference orderRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+            orderRef.child(getOrderTO).child("Orders").child(getOrderId).child("Items")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            driverProductModelArrayList.clear();
+
+                            for(DataSnapshot ds: snapshot.getChildren()){
+
+                                driverOrderModel = ds.getValue(DriverOrderModel.class);
+
+                                DatabaseReference refItems = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+                                refItems.child(Objects.requireNonNull(firebaseAuth.getUid())).child("Orders").child(driverOrderModel.getOrderID()).child("Items")
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                for(DataSnapshot ds : snapshot.getChildren()){
+
+                                                    DriverProductModel driverProductModel = ds.getValue(DriverProductModel.class);
+                                                    driverProductModelArrayList.add(driverProductModel);
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(getContext(), "1"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "2"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            View view = getLayoutInflater().inflate(R.layout.custom_dialog_driver_items,null);
+            builder.setView(view);
+            AlertDialog dialog = builder.create();
+
+            TextView orderId = view.findViewById(R.id.custom_dialog_driver_order_id);
+            TextView storeName = view.findViewById(R.id.custom_dialog_driver_store_name);
+            TextView orderName = view.findViewById(R.id.custom_dialog_driver_order_name);
+            TextView totalValue = view.findViewById(R.id.custom_dialog_driver_total_value);
+            TextView totalDevFee = view.findViewById(R.id.custom_dialog_driver_dev_fee_value);
+            ImageView callValue = view.findViewById(R.id.custom_dialog_driver_call_value);
+            Button delivered = view.findViewById(R.id.custom_dialog_driver_delivered);
+            RecyclerView orderItems = view.findViewById(R.id.custom_dialog_driver_order_items);
+
+            delivered.setVisibility(View.GONE);
+            callValue.setVisibility(View.GONE);
+
+            DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+            ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            for(DataSnapshot ds: snapshot.getChildren()){
+                                String fName = ""+ds.child("first_name").getValue();
+                                String lName = ""+ds.child("last_name").getValue();
+                                String pNum = "" +ds.child("phoneNum").getValue();
+
+                                String custFullName = fName + " " + lName;
+                                orderName.setText(""+custFullName);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderTo())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot ds: snapshot.getChildren()){
+                                String getStoreName = ""+ds.child("store_name").getValue();
+
+                                storeName.setText(getStoreName);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+            orderId.setText("#"+driverOrderModel.getOrderID());
+            totalDevFee.setText("₱ "+driverOrderModel.getOrderDevFee());
+            double devFee = Double.parseDouble(driverOrderModel.getOrderDevFee());
+            double ordertots = Double.parseDouble(driverOrderModel.getOrderTotal());
+            double setTotalValue = devFee + ordertots;
+            totalValue.setText("₱ "+setTotalValue);
+
+            adapterDriverItems = new AdapterDriverItems(getContext(),driverProductModelArrayList);
+            orderItems.setAdapter(adapterDriverItems);
+            adapterDriverItems.notifyDataSetChanged();
+
+            dialog.show();
+
+        });
     }
 
 }

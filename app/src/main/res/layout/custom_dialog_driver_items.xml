@@ -56,16 +56,27 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/custom_dialog_driver_details_base"
                 android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:textColor="@color/colorBlue"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/custom_dialog_driver_store_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/custom_dialog_driver_order_id"
+                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:textColor="@color/colorBlue"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/custom_dialog_driver_order_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/custom_dialog_driver_order_id"
+                android:layout_below="@+id/custom_dialog_driver_store_name"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textColor="@color/colorChocolate"
@@ -75,51 +86,85 @@
                 android:id="@+id/custom_dialog_driver_order_items"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/custom_dialog_driver_total_value"
+                android:layout_above="@+id/custom_dialog_driver_total_base"
                 android:layout_below="@+id/custom_dialog_driver_order_name"
                 android:layout_marginTop="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <TextView
 
-                android:layout_above="@+id/custom_dialog_driver_delivered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total"
-                android:textColor="@color/colorGray"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"
-                />
-
-            <TextView
-                android:id="@+id/custom_dialog_driver_total_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/custom_dialog_driver_delivered"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:fontFamily="sans-serif-condensed-medium"
-
-                android:textColor="@color/colorBlack"
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/custom_dialog_driver_delivered"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
+            <RelativeLayout
+                android:id="@+id/custom_dialog_driver_total_base"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/colorGreen"
-                android:fontFamily="sans-serif"
-                android:text="Delivered"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+
+                   android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Fee:"
+                    android:textColor="@color/colorGray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/custom_dialog_driver_dev_fee_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25sp" />
+
+
+
+                <TextView
+                    android:layout_below="@+id/custom_dialog_driver_dev_fee_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textColor="@color/colorGray"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/custom_dialog_driver_total_value"
+                    android:layout_below="@+id/custom_dialog_driver_dev_fee_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25sp" />
+
+
+                <Button
+                    android:id="@+id/custom_dialog_driver_delivered"
+                    android:layout_below="@+id/custom_dialog_driver_total_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/colorGreen"
+                    android:fontFamily="sans-serif"
+                    android:text="Delivered"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

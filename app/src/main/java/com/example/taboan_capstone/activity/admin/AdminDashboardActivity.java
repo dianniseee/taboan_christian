@@ -8,6 +8,8 @@ import androidx.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -111,7 +113,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        logoutCustomer();
+                        logoutAdmin();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -123,7 +125,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 });
     }
 
-    private void logoutCustomer(){
+    private void logoutAdmin(){
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
         ref.child(firebaseAuth.getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -133,8 +135,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         if(accountType.equals("Admin")){
                             firebaseAuth.signOut();
                             roomDatabase.clearAllTables();
-                            startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
-                            finish();
+
+                           new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                               startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
+                               finish();
+                           },300);
                         }
                     }
                     @Override
