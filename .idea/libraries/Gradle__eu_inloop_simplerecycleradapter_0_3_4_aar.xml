@@ -1,13 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: eu.inloop:simplerecycleradapter:0.3.4@aar">
     <CLASSES>
-      <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/b9fb7e16d294f3632abf2b22d123752d/transformed/jetified-simplerecycleradapter-0.3.4/jars/classes.jar!/" />
-      <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/b9fb7e16d294f3632abf2b22d123752d/transformed/jetified-simplerecycleradapter-0.3.4/res" />
-      <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/b9fb7e16d294f3632abf2b22d123752d/transformed/jetified-simplerecycleradapter-0.3.4/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/24a32c5d9fe87ab8bd31a2161e25d0b0/transformed/jetified-simplerecycleradapter-0.3.4/res" />
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/305ed4608a7e63cdcf4db222441b8aee/transformed/jetified-simplerecycleradapter-0.3.4/jars/classes.jar!/" />
-      <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/305ed4608a7e63cdcf4db222441b8aee/transformed/jetified-simplerecycleradapter-0.3.4/AndroidManifest.xml" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/305ed4608a7e63cdcf4db222441b8aee/transformed/jetified-simplerecycleradapter-0.3.4/res" />
+      <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/305ed4608a7e63cdcf4db222441b8aee/transformed/jetified-simplerecycleradapter-0.3.4/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/eu.inloop/simplerecycleradapter/0.3.4/e782184fb219556fb76f4d3fa9e5075f005fb39e/simplerecycleradapter-0.3.4-javadoc.jar!/" />

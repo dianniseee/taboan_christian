@@ -4,7 +4,6 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/df275015e0738461af24690801b5b018/transformed/jetified-play-services-stats-17.0.2/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/df275015e0738461af24690801b5b018/transformed/jetified-play-services-stats-17.0.2/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/df275015e0738461af24690801b5b018/transformed/jetified-play-services-stats-17.0.2/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/df275015e0738461af24690801b5b018/transformed/jetified-play-services-stats-17.0.2/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.google.android.gms/play-services-stats/17.0.2/c0d58b8efa926b2c607984c54fb3d274490badd1/play-services-stats-17.0.2-javadoc.jar!/" />

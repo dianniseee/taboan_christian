@@ -4,7 +4,6 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/b42d158b243342cbad41a8e533195abd/transformed/versionedparcelable-1.1.1/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/b42d158b243342cbad41a8e533195abd/transformed/versionedparcelable-1.1.1/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/b42d158b243342cbad41a8e533195abd/transformed/versionedparcelable-1.1.1/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b42d158b243342cbad41a8e533195abd/transformed/versionedparcelable-1.1.1/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
