@@ -73,11 +73,13 @@ public class CustomerOrdersActivity extends DrawerBaseActivity {
                         customerOrderDetailsModelArrayList.add(modelOrderUser);
                     }
 
-                    Collections.sort(customerOrderDetailsModelArrayList,CustomerOrderDetailsModel.CustomerOrderDetailsModelDate);
-                    adapterCustomerOrder = new AdapterCustomerOrder(CustomerOrdersActivity.this,customerOrderDetailsModelArrayList,mAdapterClick,firebaseAuth.getUid());
-                    customer_order_rv.setAdapter(adapterCustomerOrder);
-                    customer_order_rv.scrollToPosition(0);
-                    adapterCustomerOrder.notifyDataSetChanged();
+                    if(!customerOrderDetailsModelArrayList.isEmpty()){
+                        Collections.sort(customerOrderDetailsModelArrayList,CustomerOrderDetailsModel.CustomerOrderDetailsModelDate);
+                        adapterCustomerOrder = new AdapterCustomerOrder(CustomerOrdersActivity.this,customerOrderDetailsModelArrayList,mAdapterClick,firebaseAuth.getUid());
+                        customer_order_rv.setAdapter(adapterCustomerOrder);
+                        customer_order_rv.scrollToPosition(0);
+                        adapterCustomerOrder.notifyDataSetChanged();
+                    }
                 }
             }
 

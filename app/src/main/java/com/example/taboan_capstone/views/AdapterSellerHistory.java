@@ -10,8 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taboan_capstone.Globals;
 import com.example.taboan_capstone.R;
 import com.example.taboan_capstone.models.SellerOrderModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +53,6 @@ public class AdapterSellerHistory extends  RecyclerView.Adapter<AdapterSellerHis
         String formattedDate = DateFormat.format("MM/dd/yyyy",calendar).toString();
 
         holder.orderId.setText("#"+orderID);
-        holder.orderBy.setText("#"+orderBy);
 
         if(orderStatus.equals("Successful")){
             holder.orderStatus.setTextColor(context.getResources().getColor(R.color.colorGreen));
@@ -57,6 +62,27 @@ public class AdapterSellerHistory extends  RecyclerView.Adapter<AdapterSellerHis
         holder.orderStatus.setText(""+orderStatus);
         holder.orderDate.setText(""+formattedDate);
 
+        setUpName(sellerOrderModel,holder);
+    }
+
+    private void setUpName(SellerOrderModel sellerOrderModel,AdapterSellerHistoryHolder holder){
+        DatabaseReference reference = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+        reference.orderByChild("uid").equalTo(sellerOrderModel.getOrderBy())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            String fName = ""+ds.child("first_name").getValue();
+                            String lName = ""+ds.child("last_name").getValue();
+                            holder.orderBy.setText(fName + " " + lName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     @Override

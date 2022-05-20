@@ -239,49 +239,6 @@ public class DashboardFragment extends Fragment {
     private void setOnAdapterClick(){
         onAdapterClick = ((v, position) -> {
 
-            String getOrderTO = sellerOrderModelArrayList.get(position).getOrderTo();
-            String getOrderId = sellerOrderModelArrayList.get(position).getOrderID();
-
-            driverProductModelArrayList = new ArrayList<>();
-
-            DatabaseReference orderRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-            orderRef.child(getOrderTO).child("Orders").child(getOrderId).child("Items")
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            driverProductModelArrayList.clear();
-
-                            for(DataSnapshot ds: snapshot.getChildren()){
-
-                                driverOrderModel = ds.getValue(DriverOrderModel.class);
-
-                                DatabaseReference refItems = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-                                refItems.child(Objects.requireNonNull(firebaseAuth.getUid())).child("Orders").child(driverOrderModel.getOrderID()).child("Items")
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                                for(DataSnapshot ds : snapshot.getChildren()){
-
-                                                    DriverProductModel driverProductModel = ds.getValue(DriverProductModel.class);
-                                                    driverProductModelArrayList.add(driverProductModel);
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Toast.makeText(getContext(), "1"+error.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), "2"+error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             View view = getLayoutInflater().inflate(R.layout.custom_dialog_driver_items,null);
             builder.setView(view);
@@ -299,8 +256,37 @@ public class DashboardFragment extends Fragment {
             delivered.setVisibility(View.GONE);
             callValue.setVisibility(View.GONE);
 
+            String getOrderTO = sellerOrderModelArrayList.get(position).getOrderTo();
+            String getOrderBy = sellerOrderModelArrayList.get(position).getOrderBy();
+            String getOrderId = sellerOrderModelArrayList.get(position).getOrderID();
+            String getOrderDevFee = sellerOrderModelArrayList.get(position).getOrderDevFee();
+            String getOrderSubTotal = sellerOrderModelArrayList.get(position).getOrderSubTotal();
+
+            driverProductModelArrayList = new ArrayList<>();
+
+            DatabaseReference orderRef = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+            orderRef.child(getOrderTO).child("Orders").child(getOrderId).child("Items")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            driverProductModelArrayList.clear();
+
+                            for(DataSnapshot ds: snapshot.getChildren()){
+
+                                DriverProductModel driverProductModel = ds.getValue(DriverProductModel.class);
+                                driverProductModelArrayList.add(driverProductModel);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "2"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
             DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-            ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
+            ref2.orderByChild("uid").equalTo(getOrderBy)
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -321,27 +307,26 @@ public class DashboardFragment extends Fragment {
                         }
                     });
 
-            ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderTo())
+            ref2.orderByChild("uid").equalTo(getOrderTO)
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot ds: snapshot.getChildren()){
                                 String getStoreName = ""+ds.child("store_name").getValue();
-
                                 storeName.setText(getStoreName);
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
-            orderId.setText("#"+driverOrderModel.getOrderID());
-            totalDevFee.setText("₱ "+driverOrderModel.getOrderDevFee());
-            double devFee = Double.parseDouble(driverOrderModel.getOrderDevFee());
-            double ordertots = Double.parseDouble(driverOrderModel.getOrderTotal());
+            orderId.setText("#"+getOrderId);
+            totalDevFee.setText("₱ "+getOrderDevFee);
+            double devFee = Double.parseDouble(getOrderDevFee);
+            double ordertots = Double.parseDouble(getOrderSubTotal);
             double setTotalValue = devFee + ordertots;
             totalValue.setText("₱ "+setTotalValue);
 

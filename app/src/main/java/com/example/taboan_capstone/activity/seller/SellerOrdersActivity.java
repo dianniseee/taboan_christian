@@ -166,7 +166,6 @@ public class SellerOrdersActivity extends AppCompatActivity {
                                         Toast.makeText(SellerOrdersActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-
                             }
                         }
                     }

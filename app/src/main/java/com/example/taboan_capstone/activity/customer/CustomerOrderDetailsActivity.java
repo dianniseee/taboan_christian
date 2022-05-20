@@ -158,10 +158,12 @@ public class CustomerOrderDetailsActivity extends AppCompatActivity implements O
                         String orderDateTime = ""+snapshot.child("orderDateTime").getValue();
                         String orderStatus = ""+snapshot.child("orderStatus").getValue();
                         String orderTotal = ""+snapshot.child("orderTotal").getValue();
+                        String orderSub = ""+snapshot.child("orderSubtotal").getValue();
+                        String orderFee = ""+snapshot.child("orderDevFee").getValue();
 
                         marketName.setText(orderMarket);
                         tvOrderId.setText(orderId);
-                        subtotal.setText(orderTotal);
+                        subtotal.setText(orderSub);
                         total.setText(orderTotal);
 
                         Calendar calendar = Calendar.getInstance();

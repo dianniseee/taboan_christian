@@ -107,7 +107,7 @@
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_home.xml" value="0.21" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_order_details.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_orders.xml" value="0.22" />
-        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_profile.xml" value="0.22" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_profile.xml" value="0.33" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_register.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_customer_store_details.xml" value="0.16" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/activity_dashboard.xml" value="0.22" />
@@ -170,7 +170,7 @@
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/market_list_item.xml" value="0.18" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/order_status_dialog.xml" value="0.25" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_history_seller.xml" value="0.22" />
-        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_driver.xml" value="0.33" />
+        <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_driver.xml" value="0.25" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_items.xml" value="0.22" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_order_seller.xml" value="0.18" />
         <entry key="..\:/Users/Reylar/AndroidStudioProjects/taboan_christian/app/src/main/res/layout/row_product_seller.xml" value="0.22" />

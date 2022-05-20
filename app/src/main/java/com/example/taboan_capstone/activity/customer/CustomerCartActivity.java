@@ -171,9 +171,7 @@ public class CustomerCartActivity extends AppCompatActivity {
 
         List<String> distinctSeller = roomDatabase.dbDao().getDistinctSeller();
 
-        for(int i = 0; i < currentCart.size(); i++){
-
-            String id = distinctSeller.get(i);
+        for(String id : distinctSeller){
 
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("orderID", "" + timestamp);
@@ -390,6 +388,7 @@ public class CustomerCartActivity extends AppCompatActivity {
 
     private void remoceCartRow(int id){
         roomDatabase.dbDao().deleteCartById(id);
+        setupCarts();
         adapterCustomerCart.notifyDataSetChanged();
         checkCart();
     }

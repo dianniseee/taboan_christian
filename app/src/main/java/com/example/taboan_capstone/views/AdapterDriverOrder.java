@@ -1,6 +1,8 @@
 package com.example.taboan_capstone.views;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +69,6 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
             }
         });
 
-
     }
 
     private void showOrderItems(SellerOrderModel sellerOrderModel){
@@ -82,6 +83,7 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
         hashMap.put("orderBy", "" + sellerOrderModel.getOrderBy());
         hashMap.put("orderTo", "" + sellerOrderModel.getOrderTo());
         hashMap.put("orderMarket", "" + sellerOrderModel.getOrderMarket());
+        hashMap.put("orderDevFee", "" + sellerOrderModel.getOrderDevFee());
         hashMap.put("orderDateTime", "" + sellerOrderModel.getOrderDateTime());
         hashMap.put("orderDriverID","" + firebaseAuth.getUid());
         hashMap.put("orderStatus", ""+ "Delivery");
@@ -119,6 +121,14 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Toast.makeText(context, "Orders Items Receive", Toast.LENGTH_SHORT).show();
+
+                                                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    updateOrderStatus(sellerOrderModel);
+                                                                    driverStatus();
+                                                                }
+                                                            },400);
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
@@ -126,7 +136,6 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
                                                     Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-
                                         }
                                     }
                                     @Override
@@ -135,8 +144,8 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
                                     }
                                 });
 
-                        updateOrderStatus(sellerOrderModel);
-                        driverStatus();
+//                        updateOrderStatus(sellerOrderModel);
+//                        driverStatus();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -196,8 +205,8 @@ public class AdapterDriverOrder extends  RecyclerView.Adapter<AdapterDriverOrder
 
     class AdapterDriverOrderHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
-        private TextView storeName,orderId;
-        private Button viewItems,accept;
+        private TextView storeName,orderId,viewItems;
+        private Button accept;
         public AdapterDriverOrderHolder(@NonNull View itemView) {
             super(itemView);
 

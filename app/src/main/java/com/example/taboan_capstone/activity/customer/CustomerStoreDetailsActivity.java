@@ -147,6 +147,11 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
         AlertDialog dialog = builder.create();
         dialog.show();
 
+        setQuantity = 1;
+        setSubTotal = 0;
+        bundlePieces = 1;
+        getKilo = 0;
+
         ImageView addCover1 = view.findViewById(R.id.add_cart_cover1);
         ImageView addCover2 = view.findViewById(R.id.add_cart_cover2);
         ImageView subQuantity = view.findViewById(R.id.add_cart_subtract);
@@ -334,6 +339,8 @@ public class CustomerStoreDetailsActivity extends AppCompatActivity  {
                 }
             });
         }
+
+
     }
 
 

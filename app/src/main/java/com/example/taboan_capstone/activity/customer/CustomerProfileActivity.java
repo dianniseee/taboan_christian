@@ -19,8 +19,15 @@ import com.example.taboan_capstone.database.RoomDatabase;
 import com.example.taboan_capstone.databinding.ActivityCustomerHomeBinding;
 import com.example.taboan_capstone.databinding.ActivityCustomerProfileBinding;
 import com.example.taboan_capstone.models.CustomerModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +45,9 @@ public class CustomerProfileActivity extends DrawerBaseActivity {
     private Button btnSave;
     private RoomDatabase roomDatabase;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private AuthCredential authCredential;
+    private String userGetEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +57,13 @@ public class CustomerProfileActivity extends DrawerBaseActivity {
         allocateActivtyTitle("Profile");
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ti_FirstName = binding.getRoot().findViewById(R.id.ti_p_FirstName);
         ti_LastName = binding.getRoot().findViewById(R.id.ti_p_LastName);
         ti_Address = binding.getRoot().findViewById(R.id.ti_p_Address);
         ti_Mobile = binding.getRoot().findViewById(R.id.ti_p_Mobile);
         ti_GPS_Address = binding.getRoot().findViewById(R.id.ti_p_GPS_Address);
-        ti_Email = binding.getRoot().findViewById(R.id.ti_p_Email);
-        ti_Password = binding.getRoot().findViewById(R.id.ti_p_Password);
         btnSave = binding.getRoot().findViewById(R.id.btn_p_Save);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +80,7 @@ public class CustomerProfileActivity extends DrawerBaseActivity {
     }
 
     private void saveData(){
-        String fName,lName,address,mobile,email,password;
+        String fName,lName,address,mobile,password;
         DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -80,27 +89,43 @@ public class CustomerProfileActivity extends DrawerBaseActivity {
         lName = ti_LastName.getEditText().getText().toString().trim();
         address = ti_Address.getEditText().getText().toString().trim();
         mobile = ti_Mobile.getEditText().getText().toString().trim();
-        email = ti_Email.getEditText().getText().toString().trim();
         password = ti_Password.getEditText().getText().toString().trim();
 
-        hashMap.put("email", "" + email);
         hashMap.put("first_name", "" + fName);
         hashMap.put("last_name", "" + lName);
         hashMap.put("phoneNum", "" + mobile);
         hashMap.put("address", "" + address);
         hashMap.put("password", "" + password);
 
-        ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
-                .addOnSuccessListener(unused -> Toast.makeText(CustomerProfileActivity.this, "Profile Update successfully",Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(CustomerProfileActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show());
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        ref.child(firebaseAuth.getUid()).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void run() {
-                getInformation();
-            }
-        },500);
+            public void onSuccess(Void unused) {
 
+                firebaseUser.updatePassword(password).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(CustomerProfileActivity.this, "Profile Update successfully",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CustomerProfileActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getInformation();
+                    }
+                },500);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CustomerProfileActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void getInformation(){
@@ -117,7 +142,6 @@ public class CustomerProfileActivity extends DrawerBaseActivity {
                     Objects.requireNonNull(ti_LastName.getEditText()).setText(customerModel.getLast_name());
                     Objects.requireNonNull(ti_Address.getEditText()).setText(customerModel.getAddress());
                     Objects.requireNonNull(ti_Mobile.getEditText()).setText(customerModel.getPhoneNum());
-                    Objects.requireNonNull(ti_Email.getEditText()).setText(customerModel.getEmail());
                     Objects.requireNonNull(ti_GPS_Address.getEditText()).setText(customerModel.getGps_address());
                     Objects.requireNonNull(ti_Password.getEditText()).setText(customerModel.getPassword());
 

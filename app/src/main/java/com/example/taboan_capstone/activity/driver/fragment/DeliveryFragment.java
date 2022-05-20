@@ -237,71 +237,76 @@ public class DeliveryFragment extends Fragment implements OnMapReadyCallback,Loc
         Button delivered = view.findViewById(R.id.custom_dialog_driver_delivered);
         RecyclerView orderItems = view.findViewById(R.id.custom_dialog_driver_order_items);
 
-        DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
-        ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+     try{
+         DatabaseReference ref2 = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+         ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderBy())
+                 .addValueEventListener(new ValueEventListener() {
+                     @Override
+                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        for(DataSnapshot ds: snapshot.getChildren()){
-                            String fName = ""+ds.child("first_name").getValue();
-                            String lName = ""+ds.child("last_name").getValue();
-                            String pNum = "" +ds.child("phoneNum").getValue();
+                         for(DataSnapshot ds: snapshot.getChildren()){
+                             String fName = ""+ds.child("first_name").getValue();
+                             String lName = ""+ds.child("last_name").getValue();
+                             String pNum = "" +ds.child("phoneNum").getValue();
 
-                            String custFullName = fName + " " + lName;
-                            orderName.setText(""+custFullName);
+                             String custFullName = fName + " " + lName;
+                             orderName.setText(""+custFullName);
 
-                            callValue.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    callUser(pNum);
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
-                    }
+                             callValue.setOnClickListener(new View.OnClickListener() {
+                                 @Override
+                                 public void onClick(View v) {
+                                     callUser(pNum);
+                                     dialog.dismiss();
+                                 }
+                             });
+                         }
+                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                     @Override
+                     public void onCancelled(@NonNull DatabaseError error) {
+                         Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                     }
+                 });
 
-        ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderTo())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot ds: snapshot.getChildren()){
-                            String getStoreName = ""+ds.child("store_name").getValue();
+         ref2.orderByChild("uid").equalTo(driverOrderModel.getOrderTo())
+                 .addValueEventListener(new ValueEventListener() {
+                     @Override
+                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                         for(DataSnapshot ds: snapshot.getChildren()){
+                             String getStoreName = ""+ds.child("store_name").getValue();
 
-                            storeName.setText(getStoreName);
-                        }
-                    }
+                             storeName.setText(getStoreName);
+                         }
+                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                     @Override
+                     public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                     }
+                 });
 
-        orderId.setText("#"+driverOrderModel.getOrderID());
-        totalDevFee.setText("₱ "+driverOrderModel.getOrderDevFee());
-        double devFee = Double.parseDouble(driverOrderModel.getOrderDevFee());
-        double ordertots = Double.parseDouble(driverOrderModel.getOrderTotal());
-        double setTotalValue = devFee + ordertots;
-        totalValue.setText("₱ "+setTotalValue);
 
-        adapterDriverItems = new AdapterDriverItems(context,driverProductModelArrayList);
-        orderItems.setAdapter(adapterDriverItems);
-        adapterDriverItems.notifyDataSetChanged();
+         orderId.setText("#"+driverOrderModel.getOrderID());
+         totalDevFee.setText("₱ "+driverOrderModel.getOrderDevFee());
+         double devFee = Double.parseDouble(driverOrderModel.getOrderDevFee());
+         double ordertots = Double.parseDouble(driverOrderModel.getOrderTotal());
+         double setTotalValue = devFee + ordertots;
+         totalValue.setText("₱ "+setTotalValue);
 
-        delivered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deliverOrder();
-                dialog.dismiss();
-            }
-        });
+         adapterDriverItems = new AdapterDriverItems(context,driverProductModelArrayList);
+         orderItems.setAdapter(adapterDriverItems);
+         adapterDriverItems.notifyDataSetChanged();
+
+         delivered.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 deliverOrder();
+                 dialog.dismiss();
+             }
+         });
+     }catch (Exception e){
+         Toast.makeText(context, "No order items at the moment.", Toast.LENGTH_SHORT).show();
+     }
 
 
 

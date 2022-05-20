@@ -44,19 +44,20 @@
                 android:textSize="20sp" />
 
 
-            <Button
+            <TextView
                 android:id="@+id/row_driver_shop_order_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/row_driver_shop_order_id"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@color/colorTransparent"
+                android:drawableEnd="@drawable/ic_touch"
                 android:padding="10dp"
                 android:text="View Items"
-                android:textColor="@color/colorChocolate"
-                app:backgroundTint="@color/colorGrayWhite" />
+                android:textColor="@color/colorBlue" />
 
             <Button
                 android:id="@+id/row_driver_shop_order_accept"

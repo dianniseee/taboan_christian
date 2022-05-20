@@ -173,6 +173,11 @@ public class CustomerHomeActivity extends DrawerBaseActivity {
         }
     }
 
+    private void checkLatLng(){
+        DatabaseReference ref = FirebaseDatabase.getInstance(Globals.INSTANCE.getFirebaseLink()).getReference("Users");
+
+    }
+
     @Override
     public void onBackPressed() {
         showCustomDialog();

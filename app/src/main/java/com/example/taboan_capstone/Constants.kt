@@ -14,8 +14,7 @@ interface Constants {
         )
 
         val PROD_AVAILABILITY = arrayOf(
-            "Available",
-            "Out of Stock"
+            "Available"
         )
 
         val MARKET_CATEGORY = arrayOf(

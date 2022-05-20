@@ -138,7 +138,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     } else if (accountType.equals("Seller")){
                         startActivity(new Intent(SplashScreenActivity.this, SellerDashboardActivity.class));
                         finish();
-                    }else{
+                    }else if(accountType.equals("Rider")){
                         startActivity(new Intent(SplashScreenActivity.this, DriverDrawerActivity.class));
                         finish();
                     }
