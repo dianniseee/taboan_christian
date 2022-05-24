@@ -337,7 +337,7 @@ public class CustomerCartActivity extends AppCompatActivity {
                                         getKilo = setQuantity;
                                         setSubTotal = getKilo * prodPrice;
 
-                                        updateLocalCart(prodId,bundlePieces,setSubTotal);
+                                        updateLocalCart(prodId,getKilo,setSubTotal);
                                     }
                                 }
 
@@ -357,7 +357,7 @@ public class CustomerCartActivity extends AppCompatActivity {
                                     getKilo = setQuantity;
                                     setSubTotal = getKilo * prodPrice;
 
-                                    updateLocalCart(prodId,bundlePieces,setSubTotal);
+                                    updateLocalCart(prodId,getKilo,setSubTotal);
                                 }
 
                                 return true;

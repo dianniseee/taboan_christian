@@ -4,12 +4,17 @@
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/306f25d50b74d780efbda17b4919bed9/transformed/jetified-WeDialog-1.0.3/jars/classes.jar!/" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/306f25d50b74d780efbda17b4919bed9/transformed/jetified-WeDialog-1.0.3/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/caches/transforms-3/306f25d50b74d780efbda17b4919bed9/transformed/jetified-WeDialog-1.0.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/780b1f68a360657a592c17d55b030942/transformed/jetified-WeDialog-1.0.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/780b1f68a360657a592c17d55b030942/transformed/jetified-WeDialog-1.0.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/780b1f68a360657a592c17d55b030942/transformed/jetified-WeDialog-1.0.3/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.cysion/WeDialog/1.0.3/c60d2ade5b082b365c331c22e6949f9322bfb242/WeDialog-1.0.3-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.cysion/WeDialog/1.0.3/c60d2ade5b082b365c331c22e6949f9322bfb242/WeDialog-1.0.3-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/caches/modules-2/files-2.1/com.cysion/WeDialog/1.0.3/cc26dc0e96a95491a67e0b36c8f87ccf9c0484fa/WeDialog-1.0.3-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.cysion/WeDialog/1.0.3/cc26dc0e96a95491a67e0b36c8f87ccf9c0484fa/WeDialog-1.0.3-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

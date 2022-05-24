@@ -46,7 +46,6 @@ interface DBDao {
     @Query("SELECT EXISTS (SELECT * FROM customer_cart WHERE productID = :prodID)")
     fun checkExistingCart(prodID: String): Boolean
 
-
     @Insert
     fun insertCurrentUser(vararg currentUser: CurrentUserModel)
 
@@ -64,7 +63,5 @@ interface DBDao {
 
     @Query("DELETE FROM customer_cart WHERE id = :id")
     fun deleteCartById(id: Int)
-
-
 
 }
